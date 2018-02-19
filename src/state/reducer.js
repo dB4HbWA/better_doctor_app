@@ -1,7 +1,8 @@
 import { LOAD_DOC_DATA } from './actions';
 
 const initialState = {
-  docData: []
+  docData: [],
+  signedInUser: undefined
 };
 
 function reducer(state = initialState, action) {

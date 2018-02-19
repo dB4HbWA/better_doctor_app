@@ -29,7 +29,7 @@ class SearchView extends Component {
   }
 
   componentDidMount() {
-    this.props.loadDocData()
+    //this.props.loadDocData()
   }
 
   render() {

@@ -21,18 +21,16 @@ class HomeView extends Component {
   }
 
   handleLocationNameChange(event) {
-    this.setState({locationName: event.target.value})
+    this.setState({ locationName: event.target.value })
   }
 
   handleMilesAwayChange(event) {
-    this.setState({milesAway: event.target.value})
+    this.setState({ milesAway: event.target.value })
   }
 
   componentDidMount() {
     this.props.loadDocData()
   }
-
-
 
   render() {
     return (
@@ -42,12 +40,12 @@ class HomeView extends Component {
         </h1>
         <input onChange={this.handleLocationNameChange} type='text' placeholder="City, State or Zip Code" />
         <div className="uitk-select md-text-field">
-            <select onChange={this.handleMilesAwayChange} className="os-default">
-              <option disabled selected value="">Miles</option>
-              {distances.map((distance) => <option value={distance}>{distance} Miles</option>)}
-            </select>
-            <span className="select-arrow"></span>
-          </div>
+          <select onChange={this.handleMilesAwayChange} className="os-default">
+            <option selected disabled value="Miles" >Miles</option>
+            {distances.map((distance) => <option key={"distance" + distance} value={distance}>{distance} Miles</option>)}
+          </select>
+          <span className="select-arrow"></span>
+        </div>
         <button>Go!</button>
         {<div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">

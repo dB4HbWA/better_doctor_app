@@ -46,6 +46,7 @@ class App extends Component {
           </div>
           <Switch>
             <Route exact path="/" component={HomeView} />
+            <Route exact path="/mydoctors" component={FavoritesViews} />
           </Switch>
         </div>
       </Router>

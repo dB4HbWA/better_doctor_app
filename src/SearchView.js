@@ -8,7 +8,7 @@ import DoctorCard from './DoctorCard'
 
 const distances = [10, 25, 50, 75, 100]
 
-class HomeView extends Component {
+class SearchView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -71,4 +71,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeView)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchView)

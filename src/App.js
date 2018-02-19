@@ -47,6 +47,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomeView} />
             <Route exact path="/mydoctors" component={FavoritesViews} />
+            <Route exact path="/profile" component={ProfileView} />
+            <Route exact path="/newProfile" component={NewProfileView} />
           </Switch>
         </div>
       </Router>

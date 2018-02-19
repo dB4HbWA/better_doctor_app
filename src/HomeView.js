@@ -9,10 +9,30 @@ import DoctorCard from './DoctorCard'
 const distances = [10, 25, 50, 75, 100]
 
 class HomeView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      locationName: "",
+      milesAway: 0
+    }
+
+    this.handleLocationNameChange = this.handleLocationNameChange.bind(this)
+    this.handleMilesAwayChange = this.handleMilesAwayChange.bind(this)
+  }
+
+  handleLocationNameChange(event) {
+    this.setState({locationName: event.target.value})
+  }
+
+  handleMilesAwayChange(event) {
+    this.setState({milesAway: event.target.value})
+  }
 
   componentDidMount() {
     this.props.loadDocData()
   }
+
+
 
   render() {
     return (
@@ -20,9 +40,9 @@ class HomeView extends Component {
         <h1 className="pageHeader">
           Search
         </h1>
-        <input type='text' placeholder="City, State or Zip Code" />
+        <input onChange={this.handleLocationNameChange} type='text' placeholder="City, State or Zip Code" />
         <div className="uitk-select md-text-field">
-            <select className="os-default">
+            <select onChange={this.handleMilesAwayChange} className="os-default">
               <option disabled selected value="">Miles</option>
               {distances.map((distance) => <option value={distance}>{distance} Miles</option>)}
             </select>

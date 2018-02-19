@@ -3,7 +3,9 @@ import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
 import { loadDocData } from './state/actions';
 import { connect } from 'react-redux';
-import DoctorCard from './DoctorCard'
+import DoctorCard from './DoctorCard';
+//import geocoder from 'geocoder'
+
 
 
 const distances = [10, 25, 50, 75, 100]
@@ -21,6 +23,7 @@ class SearchView extends Component {
     this.handleLocationNameChange = this.handleLocationNameChange.bind(this)
     this.handleMilesAwayChange = this.handleMilesAwayChange.bind(this)
     this.toggleCurrentLocation = this.toggleCurrentLocation.bind(this)
+    this.handleGoButtonClick = this.handleGoButtonClick.bind(this)
   }
 
   handleLocationNameChange(event) {
@@ -33,20 +36,39 @@ class SearchView extends Component {
 
   toggleCurrentLocation() {
     if (this.state.currentLocation)
-      this.setState({currentLocation: undefined, gettingCurrentLocation: undefined})
+      this.setState({ currentLocation: undefined, gettingCurrentLocation: undefined })
     else {
       if (navigator.geolocation) {
-        this.setState({gettingCurrentLocation: "retrieving"})
+        this.setState({ gettingCurrentLocation: "retrieving" })
         navigator.geolocation.getCurrentPosition((position) => {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            this.setState({currentLocation: pos, gettingCurrentLocation: "retrieved"})
-      })
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          this.setState({ currentLocation: pos, gettingCurrentLocation: "retrieved" })
+        })
+      }
     }
   }
-}
+
+  handleGoButtonClick() {
+    console.log("in button click")
+
+    const google = window.google
+
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': this.state.locationName },
+      function (results, status) {
+        if (status == 'OK') {
+          var latitude = results[0].geometry.location.lat();
+          var longitude = results[0].geometry.location.lng();
+          console.log(latitude + ',' + longitude);
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+  }
 
   componentDidMount() {
     //this.props.loadDocData()
@@ -69,7 +91,7 @@ class SearchView extends Component {
           </select>
           <span className="select-arrow"></span>
         </div>
-        <button>Go!</button>
+        <button onClick={this.handleGoButtonClick} >Go!</button>
         {<div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">
             {this.props.docData.map((doc) => <DoctorCard key={doc.uid} urlToImage={doc.profile.image_url} docName={doc.profile.first_name + " " + doc.profile.last_name} />)}

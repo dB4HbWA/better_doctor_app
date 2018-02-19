@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
-import { loadDocData } from './state/actions';
+import { loadDocData, getCurrentPosition, NULL_CURRENT_POSITION } from './state/actions';
 import { connect } from 'react-redux';
 import DoctorCard from './DoctorCard'
 
@@ -13,11 +13,13 @@ class SearchView extends Component {
     super(props)
     this.state = {
       locationName: "",
-      milesAway: 0
+      milesAway: 0,
+      //currentLocation: undefined
     }
 
     this.handleLocationNameChange = this.handleLocationNameChange.bind(this)
     this.handleMilesAwayChange = this.handleMilesAwayChange.bind(this)
+    this.toggleCurrentLocation = this.toggleCurrentLocation.bind(this)
   }
 
   handleLocationNameChange(event) {
@@ -28,17 +30,30 @@ class SearchView extends Component {
     this.setState({ milesAway: event.target.value })
   }
 
+  toggleCurrentLocation() {
+    if (this.props.currentLocation)
+      this.props.nullCurrentPosition();
+    else {
+      if (navigator.geolocation) {
+        this.props.getCurrentPosition();
+      }
+    }
+  }
+
   componentDidMount() {
     //this.props.loadDocData()
   }
 
   render() {
+    console.log(this.props.gettingCurrentLocation)
     return (
       <div>
         <h1 className="pageHeader">
           Search
         </h1>
-        <input onChange={this.handleLocationNameChange} type='text' placeholder="City, State or Zip Code" />
+        {(!this.props.currentLocation && this.props.gettingCurrentLocation !== "retrieving") && <input onChange={this.handleLocationNameChange} type='text' value={this.state.locationName} placeholder="City, State or Zip Code" />}
+        <input name="checkbox-example" id="checkbox-example-1b" value={this.props.currentLocation} onChange={this.toggleCurrentLocation} type="checkbox" />
+        <label htmlFor="checkbox-example-1b">Use Current Location</label>
         <div className="uitk-select md-text-field">
           <select onChange={this.handleMilesAwayChange} className="os-default">
             <option selected disabled value="Miles" >Miles</option>
@@ -60,13 +75,17 @@ class SearchView extends Component {
 const mapStateToProps = state => {
 
   return {
-    docData: state.docData
+    docData: state.docData,
+    currentLocation: state.currentLocation,
+    gettingCurrentLocation: state.gettingCurrentLocation
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadDocData: () => dispatch(loadDocData())
+    loadDocData: () => dispatch(loadDocData()),
+    getCurrentPosition: () => dispatch(getCurrentPosition()),
+    nullCurrentPosition: () => dispatch({type: NULL_CURRENT_POSITION})
   }
 };
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
-import { loadDocData, getCurrentPosition, NULL_CURRENT_POSITION } from './state/actions';
+import { loadDocData } from './state/actions';
 import { connect } from 'react-redux';
 import DoctorCard from './DoctorCard'
 
@@ -14,7 +14,8 @@ class SearchView extends Component {
     this.state = {
       locationName: "",
       milesAway: 0,
-      //currentLocation: undefined
+      currentLocation: undefined,
+      gettingCurrentLocation: undefined
     }
 
     this.handleLocationNameChange = this.handleLocationNameChange.bind(this)
@@ -31,14 +32,21 @@ class SearchView extends Component {
   }
 
   toggleCurrentLocation() {
-    if (this.props.currentLocation)
-      this.props.nullCurrentPosition();
+    if (this.state.currentLocation)
+      this.setState({currentLocation: undefined, gettingCurrentLocation: undefined})
     else {
       if (navigator.geolocation) {
-        this.props.getCurrentPosition();
-      }
+        this.setState({gettingCurrentLocation: "retrieving"})
+        navigator.geolocation.getCurrentPosition((position) => {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            this.setState({currentLocation: pos, gettingCurrentLocation: "retrieved"})
+      })
     }
   }
+}
 
   componentDidMount() {
     //this.props.loadDocData()
@@ -51,7 +59,7 @@ class SearchView extends Component {
         <h1 className="pageHeader">
           Search
         </h1>
-        {(!this.props.currentLocation && this.props.gettingCurrentLocation !== "retrieving") && <input onChange={this.handleLocationNameChange} type='text' value={this.state.locationName} placeholder="City, State or Zip Code" />}
+        {(!this.state.currentLocation && this.state.gettingCurrentLocation !== "retrieving") && <input onChange={this.handleLocationNameChange} type='text' value={this.state.locationName} placeholder="City, State or Zip Code" />}
         <input name="checkbox-example" id="checkbox-example-1b" value={this.props.currentLocation} onChange={this.toggleCurrentLocation} type="checkbox" />
         <label htmlFor="checkbox-example-1b">Use Current Location</label>
         <div className="uitk-select md-text-field">
@@ -75,17 +83,13 @@ class SearchView extends Component {
 const mapStateToProps = state => {
 
   return {
-    docData: state.docData,
-    currentLocation: state.currentLocation,
-    gettingCurrentLocation: state.gettingCurrentLocation
+    docData: state.docData
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     loadDocData: () => dispatch(loadDocData()),
-    getCurrentPosition: () => dispatch(getCurrentPosition()),
-    nullCurrentPosition: () => dispatch({type: NULL_CURRENT_POSITION})
   }
 };
 

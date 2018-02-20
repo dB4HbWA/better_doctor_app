@@ -49,6 +49,16 @@ const mapStateToProps = state => {
   };
 };
 
+const SignInBar = props => {
+  return (
+    <div>
+      <div>Sign In</div>
+      <div>/</div>
+      <Link to={'/newProfile'} >Create Profile</Link>
+    </div>
+  )
+}
+
 const NavBarWrapped = connect(mapStateToProps)(NavBar)
 
 class App extends Component {
@@ -57,6 +67,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="appHeader">
+            <SignInBar />
             <NavBarWrapped />
           </div>
           <Switch>

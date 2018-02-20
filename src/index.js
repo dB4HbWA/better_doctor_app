@@ -13,7 +13,6 @@ const Root = () => (
   )
   
 const renderReact = () => {
-  console.log(window.google)
   ReactDOM.render(<Root />, document.getElementById('root'));
 }
 

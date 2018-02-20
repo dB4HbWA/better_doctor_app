@@ -17,7 +17,6 @@ import * as firebase from 'firebase';
 import { SET_SIGNED_IN_USER } from './state/actions'
 
 const NavItem = (props) => {
-
   return (
     <Route exact={props.exact} path={props.to} children={({ match }) => {
       return (
@@ -31,8 +30,9 @@ const NavItem = (props) => {
 }
 
 class NavBar extends Component {
-
   render() {
+    console.log('navbar')
+    console.log(this.props)
     return (
       <div className="navigationContent">
         <ul className="tabs tabNames">
@@ -139,7 +139,7 @@ class App extends Component {
         <div className="App">
           <div className="appHeader">
             <SignInBar signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo} />
-            <NavBarWrapped />
+            <Route path='/' render={({match}) => <NavBarWrapped match={match}/>} />
           </div>
           <Switch>
             <Route exact path="/" component={SearchView} />

@@ -31,8 +31,6 @@ const NavItem = (props) => {
 
 class NavBar extends Component {
   render() {
-    console.log('navbar')
-    console.log(this.props)
     return (
       <div className="navigationContent">
         <ul className="tabs tabNames">

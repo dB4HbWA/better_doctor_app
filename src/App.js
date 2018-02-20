@@ -51,10 +51,10 @@ const mapStateToProps = state => {
 
 const SignInBar = props => {
   return (
-    <div>
-      <div>Sign In</div>
-      <div>/</div>
-      <Link to={'/newProfile'} >Create Profile</Link>
+    <div style={{textAlign: 'right'}}>
+      <div style={{display: 'inline-block'}}>Sign In</div>
+      <div style={{display: 'inline-block'}}>/</div>
+      <Link style={{display: 'inline-block'}}to={'/newProfile'} >Create Profile</Link>
     </div>
   )
 }

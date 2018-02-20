@@ -2,6 +2,10 @@
   padding: 5%
 }
 
+.navigationContent {
+  padding-bottom: 3%
+}
+
 .heart {
   width: 100px;
   height: 100px;

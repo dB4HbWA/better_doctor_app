@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 
 const NavItem = (props) => {
-// TEST ADD FOR GITHUB - JOE D
+
   return (
     <Route exact={props.exact} path={props.to} children={({ match }) => {
       return (

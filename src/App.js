@@ -64,7 +64,7 @@ class App extends Component {
             <Route exact path="/mydoctors" component={FavoritesView} />
             <Route exact path="/profile" component={ProfileView} />
             <Route exact path="/newProfile" component={NewProfileView} />
-            <Route exact path="/doctor/:uid" component={DoctorView} />
+            <Route exact path="/doctor/:uid" render={({match}) => <DoctorView match={match} />} />
           </Switch>
         </div>
       </Router>

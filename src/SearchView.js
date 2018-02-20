@@ -54,7 +54,7 @@ class SearchView extends Component {
       const google = window.google
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({ 'address': this.state.locationName }, (results, status) => {
-          if (status == 'OK') {
+          if (status === 'OK') {
             var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
 

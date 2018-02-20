@@ -4,9 +4,6 @@ import './App.css';
 import { loadDocData } from './state/actions';
 import { connect } from 'react-redux';
 import DoctorCard from './DoctorCard';
-//import geocoder from 'geocoder'
-
-
 
 const distances = [10, 25, 50, 75, 100]
 
@@ -53,8 +50,6 @@ class SearchView extends Component {
   }
 
   handleGoButtonClick() {
-
-
     if (this.state.currentLocation === undefined) {
       const google = window.google
       var geocoder = new google.maps.Geocoder();
@@ -80,7 +75,6 @@ class SearchView extends Component {
             this.setState({filter: tempFilter})
             this.props.loadDocData(this.state.filter)
     }
-
   }
 
   render() {
@@ -101,7 +95,7 @@ class SearchView extends Component {
         <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined)} onClick={this.handleGoButtonClick}>Go!</button>
         {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">
-            {this.props.docData.map((doc) => <DoctorCard key={doc.uid} urlToImage={doc.profile.image_url} docName={doc.profile.first_name + " " + doc.profile.last_name} />)}
+            {this.props.docData.map((doc) => <DoctorCard key={doc.uid} doctor={doc} />)}
           </div>
         </div>}
       </div>

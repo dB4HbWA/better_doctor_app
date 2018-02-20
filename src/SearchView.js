@@ -15,9 +15,10 @@ class SearchView extends Component {
     super(props)
     this.state = {
       locationName: "",
-      milesAway: 0,
+      milesAway: 10,
       currentLocation: undefined,
-      gettingCurrentLocation: undefined
+      gettingCurrentLocation: undefined,
+      filter: {}
     }
 
     this.handleLocationNameChange = this.handleLocationNameChange.bind(this)
@@ -52,30 +53,37 @@ class SearchView extends Component {
   }
 
   handleGoButtonClick() {
-    console.log("in button click")
 
-    const google = window.google
 
-    var geocoder = new google.maps.Geocoder();
+    if (this.state.currentLocation === undefined) {
+      const google = window.google
+      var geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'address': this.state.locationName }, (results, status) => {
+          if (status == 'OK') {
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
 
-    geocoder.geocode({ 'address': this.state.locationName },
-      function (results, status) {
-        if (status == 'OK') {
-          var latitude = results[0].geometry.location.lat();
-          var longitude = results[0].geometry.location.lng();
-          console.log(latitude + ',' + longitude);
-        } else {
-          alert('Geocode was not successful for the following reason: ' + status);
-        }
-      });
-  }
+            let tempFilter = this.state.filter
+            tempFilter.location = {lat: latitude, lng: longitude}
+            tempFilter.miles = this.state.milesAway
+            this.setState({filter: tempFilter})
+            this.props.loadDocData(this.state.filter)
 
-  componentDidMount() {
-    //this.props.loadDocData()
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+    } else {
+            let tempFilter = this.state.filter
+            tempFilter.location = this.state.currentLocation
+            tempFilter.miles = this.state.milesAway
+            this.setState({filter: tempFilter})
+            this.props.loadDocData(this.state.filter)
+    }
+
   }
 
   render() {
-    console.log(this.props.gettingCurrentLocation)
     return (
       <div>
         <h1 className="pageHeader">
@@ -86,13 +94,12 @@ class SearchView extends Component {
         <label htmlFor="checkbox-example-1b">Use Current Location</label>
         <div className="uitk-select md-text-field">
           <select onChange={this.handleMilesAwayChange} className="os-default">
-            <option selected disabled value="Miles" >Miles</option>
             {distances.map((distance) => <option key={"distance" + distance} value={distance}>{distance} Miles</option>)}
           </select>
           <span className="select-arrow"></span>
         </div>
-        <button onClick={this.handleGoButtonClick} >Go!</button>
-        {<div className="topHeadlinesContainer">
+        <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined)} onClick={this.handleGoButtonClick}>Go!</button>
+        {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">
             {this.props.docData.map((doc) => <DoctorCard key={doc.uid} urlToImage={doc.profile.image_url} docName={doc.profile.first_name + " " + doc.profile.last_name} />)}
           </div>
@@ -111,7 +118,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadDocData: () => dispatch(loadDocData()),
+    loadDocData: (filter) => dispatch(loadDocData(filter)),
   }
 };
 

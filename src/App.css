@@ -37,3 +37,15 @@
   height: 200px;
   width: 400px;
 }
+
+.clickableSignon {
+  color: #0068B3;
+}
+
+.inline {
+  display: inline-block
+}
+.inline:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}

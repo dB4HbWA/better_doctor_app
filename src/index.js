@@ -8,16 +8,30 @@ import store from './state/store';
 import * as firebase from 'firebase';
 
 const Root = () => {
-  var config = {
-    apiKey: "AIzaSyA-8tlXP3pzBLu2VKtoNu1Q5lnfkg_7us4",
-    authDomain: "mydocs-app.firebaseapp.com",
-    databaseURL: "https://mydocs-app.firebaseio.com",
-    projectId: "mydocs-app",
-    storageBucket: "mydocs-app.appspot.com",
-    messagingSenderId: "442248653655"
-  }
+  // bruce's stuff
+  // var config = {
+  //   apiKey: "AIzaSyA-8tlXP3pzBLu2VKtoNu1Q5lnfkg_7us4",
+  //   authDomain: "mydocs-app.firebaseapp.com",
+  //   databaseURL: "https://mydocs-app.firebaseio.com",
+  //   projectId: "mydocs-app",
+  //   storageBucket: "mydocs-app.appspot.com",
+  //   messagingSenderId: "442248653655"
+  // }
 
-  var app = firebase.initializeApp(config);
+
+  // Vince's stuff
+  var config = {
+    apiKey: "AIzaSyA9BodFUPNMuxXaBV_LHDKEdMWI_XwMMYs",
+    authDomain: "testproject-b8b0a.firebaseapp.com",
+    databaseURL: "https://testproject-b8b0a.firebaseio.com",
+    projectId: "testproject-b8b0a",
+    storageBucket: "testproject-b8b0a.appspot.com",
+    messagingSenderId: "391424137767"
+  };
+
+  firebase.initializeApp(config);
+
+  //var app = firebase.initializeApp(config);
 
     return (<Provider store={store} >
       <App />

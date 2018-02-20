@@ -2,6 +2,7 @@ import axios from "axios"
 
 export const LOAD_DOC_DATA = "LOAD_DOC_DATA";
 export const SET_SIGNED_IN_USER = "SET_SIGNED_IN_USER";
+export const UPDATE_FAVORITE_DOCTORS = "UPDATE_FAVORITE_DOCTORS"
 
 export function loadDocData(filter) {
   return (dispatch, getState, api) => {

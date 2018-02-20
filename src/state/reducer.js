@@ -1,10 +1,11 @@
-import { LOAD_DOC_DATA, SET_SIGNED_IN_USER } from './actions';
+import { LOAD_DOC_DATA, SET_SIGNED_IN_USER, UPDATE_FAVORITE_DOCTORS } from './actions';
 
 const initialState = {
   docData: [],
   signedInUser: undefined,
   gettingCurrentLocation: undefined,
-  currentLocation: undefined
+  currentLocation: undefined,
+  favoriteDoctors: []
 };
 
 function reducer(state = initialState, action) {
@@ -13,6 +14,8 @@ function reducer(state = initialState, action) {
       return { ...state, docData: action.payload }
     case SET_SIGNED_IN_USER:
       return { ...state, signedInUser: action.payload}
+    case UPDATE_FAVORITE_DOCTORS:
+      return { ...state, favoriteDoctors: action.payload}
     default:
       return state;
   }

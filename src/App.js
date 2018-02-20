@@ -12,7 +12,9 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
-import { connect } from 'react-redux';
+import { connect} from 'react-redux';
+import * as firebase from 'firebase';
+import { SET_SIGNED_IN_USER } from './state/actions'
 
 const NavItem = (props) => {
 
@@ -42,14 +44,17 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToNavProps = state => {
 
   return {
     signedInUser: state.signedInUser
   };
 };
 
+const NavBarWrapped = connect(mapStateToNavProps)(NavBar)
+
 const SignInInput = props => {
+  if (props.signedInUser === undefined)
   return (
     <div style={{display: 'inline-block', width:'50%'}}>
       <input onChange={props.updateUserName} style={{display: 'inline-block', width:'40%', marginRight: '2%'}} type='text' value={props.signInUserName} placeholder='Username' />
@@ -57,12 +62,23 @@ const SignInInput = props => {
       <button onClick={props.handleSignOnClick} style={{display: 'inline-block', marginRight: '2%'}}>Go</button>
     </div>
   )
+  else
+    return <div style={{display: 'inline-block', paddingRight: '1%'}}>Signed in as {props.signedInUser.email}</div>
 }
+
+const mapStateToSignInProps = state => {
+  return {
+    signedInUser: state.signedInUser
+  };
+};
+
+const SignInInputWrapped = connect(mapStateToSignInProps)(SignInInput)
+
 
 const SignInBar = props => {
   return (
     <div style={{ textAlign: 'right' }}>
-      {props.enteringSignInInfo && <SignInInput handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
+      {props.enteringSignInInfo && <SignInInputWrapped handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
       <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{!props.enteringSignInInfo && 'Sign In'}</div>
       <div style={{ display: 'inline-block' }}>/</div>
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
@@ -70,7 +86,6 @@ const SignInBar = props => {
   )
 }
 
-const NavBarWrapped = connect(mapStateToProps)(NavBar)
 
 class App extends Component {
   constructor(props) {
@@ -102,7 +117,19 @@ class App extends Component {
   }
 
   handleSignOnClick() {
-    
+
+    const promise = firebase.auth().signInWithEmailAndPassword(this.state.signInUserName, this.state.signInPassword)
+
+    promise.then((user) => {
+      this.props.setSignedInUser(user)
+    })
+
+    promise.catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
   }
 
   render() {
@@ -126,4 +153,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+
+  return {
+    signedInUser: state.signedInUser
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setSignedInUser: (user) => dispatch({type: SET_SIGNED_IN_USER, payload: user})
+  }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

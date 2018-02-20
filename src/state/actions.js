@@ -1,6 +1,7 @@
 import axios from "axios"
 
 export const LOAD_DOC_DATA = "LOAD_DOC_DATA";
+export const SET_SIGNED_IN_USER = "SET_SIGNED_IN_USER";
 
 export function loadDocData(filter) {
   return (dispatch, getState, api) => {

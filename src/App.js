@@ -58,7 +58,7 @@ const SignInInput = props => {
   return (
     <div style={{display: 'inline-block', width:'50%'}}>
       <input onChange={props.updateUserName} style={{display: 'inline-block', width:'40%', marginRight: '2%'}} type='text' value={props.signInUserName} placeholder='Username' />
-      <input onChange={props.updatePassword} style={{display: 'inline-block', width:'40%', marginRight: '2%'}} type='text' value={props.signInPassword} placeholder='Password' />
+      <input onChange={props.updatePassword} style={{display: 'inline-block', width:'40%', marginRight: '2%'}} type='password' value={props.signInPassword} placeholder='Password' />
       <button onClick={props.handleSignOnClick} style={{display: 'inline-block', marginRight: '2%'}}>Go</button>
     </div>
   )
@@ -125,6 +125,7 @@ class App extends Component {
     })
 
     promise.catch((error) => {
+      console.log(error)
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;

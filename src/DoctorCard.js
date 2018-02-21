@@ -24,7 +24,6 @@ const NearestLocation = ({ practices }) => {
 class DoctorCard extends Component {
 
   handleHeartClick(uid) {
-    //add doctor to favorites by uid
     var database = firebase.database();
 
     var profilesRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid);
@@ -55,7 +54,7 @@ class DoctorCard extends Component {
               <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
               <div>Nearest Location:</div>
               <NearestLocation practices={this.props.doctor.practices} />
-              {this.props.signedInUser && <input onChange={() => this.handleHeartClick(this.props.doctor.uid)} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
+              {this.props.signedInUser && <input onChange={() => this.handleHeartClick(this.props.doctor.uid)} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc == this.props.doctor.uid)} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
             </div>
           </div>
         </div>
@@ -67,7 +66,8 @@ class DoctorCard extends Component {
 const mapStateToProps = state => {
 
   return {
-    signedInUser: state.signedInUser
+    signedInUser: state.signedInUser,
+    favoriteDoctors: state.favoriteDoctors
   };
 };
 

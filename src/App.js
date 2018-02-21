@@ -15,6 +15,7 @@ import {
 import { connect} from 'react-redux';
 import * as firebase from 'firebase';
 import { SET_SIGNED_IN_USER, loadFavorites } from './state/actions'
+import logo from './img/logo.png'
 
 const NavItem = (props) => {
   return (
@@ -79,11 +80,14 @@ const SignInInputWrapped = connect(mapStateToSignInProps)(SignInInput)
 
 const SignInBar = props => {
   return (
+    <div>
+      <img src={logo} width={150} height={150} alt='logo' />
     <div style={{ textAlign: 'right', width:'100%' }}>
       {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
       <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
       <div style={{ display: 'inline-block' }}>/</div>
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+    </div>
     </div>
   )
 }

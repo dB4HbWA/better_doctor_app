@@ -42,6 +42,19 @@ class DoctorCard extends Component {
       });
     } else {
       console.log('delete')
+      console.log("profiles/" + this.props.signedInUser.uid + '/' + uid)
+      var docRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid + '/doctor_' + uid);
+      docRef.remove();
+  
+      var ref = firebase.database().ref();
+      ref.on("value", (snapshot) => {
+
+        const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
+        this.props.updateFavorites(Object.values(doctors))
+  
+      }, function (error) {
+        console.log("Error: " + error.code);
+      });
     }
   }
 

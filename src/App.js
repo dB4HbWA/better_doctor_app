@@ -83,6 +83,7 @@ const SignInBar = props => {
     <div className='row'>
       <div className="small-3 large-2 columns">
       <img src={logo} width={150} height={123} alt='logo' />
+      
       </div>
       <div className ="small-9 large-10 columns">
     <div style={{ textAlign: 'right', width:'100%' }}>
@@ -92,6 +93,7 @@ const SignInBar = props => {
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
     </div>
     </div>
+    
     </div>
   )
 }
@@ -178,8 +180,11 @@ class App extends Component {
             <Route exact path="/newProfile" component={NewProfileView} />
             <Route exact path="/doctor/:uid" render={({ match }) => <DoctorView match={match} />} />
           </Switch>
+          <p>powered by <a href='http://www.betterdoctor.com'>betterdoctor.com</a></p>
         </div>
+        
       </Router>
+      
     );
   }
 }

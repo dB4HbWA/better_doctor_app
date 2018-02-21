@@ -34,7 +34,7 @@ class NavBar extends Component {
   render() {
     return (
       <div className="navigationContent">
-        <ul className="tabs tabNames">
+        <ul className="tabs tabNames" style={{marginTop: '15px' }}>
           <NavItem exact={true} to={'/'} navName="Home" />
           {this.props.signedInUser && <NavItem exact={true} to={'/myDoctors'} navName="My Doctors" />}
         </ul>
@@ -82,7 +82,8 @@ const SignInBar = props => {
   return (
     <div className='row'>
       <div className="small-3 large-2 columns">
-      <img src={logo} width={150} height={150} alt='logo' />
+      <img src={logo} width={150} height={123} alt='logo' />
+      
       </div>
       <div className ="small-9 large-10 columns">
     <div style={{ textAlign: 'right', width:'100%' }}>
@@ -92,6 +93,7 @@ const SignInBar = props => {
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
     </div>
     </div>
+    
     </div>
   )
 }
@@ -178,8 +180,11 @@ class App extends Component {
             <Route exact path="/newProfile" component={NewProfileView} />
             <Route exact path="/doctor/:uid" render={({ match }) => <DoctorView match={match} />} />
           </Switch>
+          <p>powered by <a href='http://www.betterdoctor.com'>betterdoctor.com</a></p>
         </div>
+        
       </Router>
+      
     );
   }
 }

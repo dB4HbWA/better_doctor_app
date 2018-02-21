@@ -28,7 +28,8 @@ class DoctorCard extends Component {
       var database = firebase.database();
       var profilesRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid);
       profilesRef.update({
-            ['doctor_' + doctor.uid]: {uid: doctor.uid, first_name: doctor.profile.first_name, specialties: this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}
+            ['doctor_' + doctor.uid]: {uid: doctor.uid, first_name: doctor.profile.first_name, last_name: doctor.profile.last_name,
+              image_url: this.props.doctor.profile.image_url, specialties: this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}
       });
   
       

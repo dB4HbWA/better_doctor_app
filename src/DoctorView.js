@@ -49,9 +49,9 @@ class DoctorView extends Component {
                         {practice.visit_address.street + " "} {practice.visit_address.city + " "} 
                         {practice.visit_address.state + ", "} {practice.visit_address.zip}
                         {practice.phones.map((phone) =>
-                          <div>
+                          <div key={phone.number}>
                             {phone.type === 'landline' &&
-                              <div key={phone.id} >{phone.number}</div>
+                              <div>{phone.number}</div>
                             }
                           </div>
                         )}

@@ -54,7 +54,7 @@ class SearchView extends Component {
   }
 
   handleNameChange(event) {
-    this.setState({name: event.target.value})
+    this.setState({ name: event.target.value })
   }
 
   handleLocationNameChange(event) {
@@ -87,31 +87,38 @@ class SearchView extends Component {
   }
 
   handleGoButtonClick() {
-    if (this.state.currentLocation === undefined) {
+    let tempFilter = {}
+
+    if (this.state.name !== "") {
+      tempFilter.doctorName = this.state.name
+    }
+
+    if (this.state.currentLocation === undefined && this.state.locationName !== "") {
       const google = window.google
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({ 'address': this.state.locationName }, (results, status) => {
         if (status === 'OK') {
-
           var latitude = results[0].geometry.location.lat();
           var longitude = results[0].geometry.location.lng();
-
-          let tempFilter = this.state.filter
           tempFilter.location = { lat: latitude, lng: longitude }
           tempFilter.miles = this.state.milesAway
+          console.log(tempFilter)
           this.setState({ filter: tempFilter })
-          this.props.loadDocData(this.state.filter)
+          this.props.loadDocData(tempFilter)
         } else {
           alert('Geocode was not successful for the following reason: ' + status);
         }
       });
-    } else {
-      let tempFilter = this.state.filter
+    } else if (this.state.currentLocation) {
       tempFilter.location = this.state.currentLocation
       tempFilter.miles = this.state.milesAway
       this.setState({ filter: tempFilter })
-      this.props.loadDocData(this.state.filter)
+      this.props.loadDocData(tempFilter)
     }
+      else {
+        this.setState({ filter: tempFilter })
+        this.props.loadDocData(tempFilter)
+      }
   }
 
   render() {
@@ -147,12 +154,12 @@ class SearchView extends Component {
             </div>
           </div>}
 
-          {this.state.nameFilter && 
-          <div>
-            <input onChange={this.handleNameChange} type='text' value={this.state.name} placeholder="First or Last Name. Partial credit counts." />
-          </div>}
+          {this.state.nameFilter &&
+            <div>
+              <input onChange={this.handleNameChange} type='text' value={this.state.name} placeholder="First or Last Name. Partial credit counts." />
+            </div>}
 
-          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined)} onClick={this.handleGoButtonClick}>Go!</button>
+          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) && this.state.name === ""} onClick={this.handleGoButtonClick}>Go!</button>
         </div>
         {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">

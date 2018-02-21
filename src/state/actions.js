@@ -7,11 +7,27 @@ export const UPDATE_FAVORITE_DOCTORS = "UPDATE_FAVORITE_DOCTORS"
 
 export function loadDocData(filter) {
   return (dispatch, getState, api) => {
+    console.log(filter)
+    let searchString = ""
+    let location = ""
+    let miles = ""
 
-    const location = filter.location.lat + ',' + filter.location.lng
-    const miles = filter.miles
+    if (filter.location) {
+      location = filter.location.lat + ',' + filter.location.lng
+      miles = filter.miles
+      searchString += 'location=' + location + ',' + miles
+    }
 
-    const promise = axios.get('https://api.betterdoctor.com/2016-03-01/doctors?location=' + location + ',' + miles + '&sort=distance-asc&skip=0&limit=50&user_key=1beb2ecd945d9c2a3079c77dc33129ce');
+    if (filter.doctorName) {
+      if (searchString !== "")
+        searchString += '&name=' + filter.doctorName
+      else
+        searchString += 'name=' + filter.doctorName
+    }
+
+    console.log('https://api.betterdoctor.com/2016-03-01/doctors?' + searchString + '&sort=distance-asc&skip=0&limit=100&user_key=1beb2ecd945d9c2a3079c77dc33129ce')
+
+    const promise = axios.get('https://api.betterdoctor.com/2016-03-01/doctors?' + searchString + '&sort=distance-asc&skip=0&limit=100&user_key=1beb2ecd945d9c2a3079c77dc33129ce');
 
     promise.then(({ data: docData }) => {
       console.log(docData)

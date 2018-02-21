@@ -73,8 +73,10 @@ class DoctorCard extends Component {
             <div style={{ display: 'inline-block' }}>
               <Link to={'/doctor/' + this.props.doctor.uid} >{this.props.doctor.profile.first_name + ' ' + this.props.doctor.profile.last_name + ' ' + this.props.doctor.profile.title} </Link>
               <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
-              <div>Nearest Location:</div>
-              <NearestLocation practices={this.props.doctor.practices} />
+              {this.props.doctor.practices !== undefined && this.props.doctor.practices.length > 0 && this.props.doctor.practices[0].distance && <div>
+                <div>Nearest Location:</div>
+                <NearestLocation practices={this.props.doctor.practices} />
+              </div>}
               {(this.props.signedInUser && this.props.favoriteDoctors) && <input onChange={() => this.handleHeartClick(this.props.doctor, this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
             </div>
           </div>

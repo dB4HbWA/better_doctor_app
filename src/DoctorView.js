@@ -12,7 +12,6 @@ const distances = [10, 25, 50, 75, 100]
 class DoctorView extends Component {
   constructor(props) {
     super(props)
-    doctorViewed: undefined
     this.state ={
       doctorDetail: undefined
     }

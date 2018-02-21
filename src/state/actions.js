@@ -26,13 +26,21 @@ export function loadDocData(filter) {
 
 export function loadFavorites(uid) {
   return (dispatch, getState, api) => {
-    var database = firebase.database();
-    var ref = firebase.database().ref();
-    ref.on("value", (snapshot) => {
-      const doctors = snapshot.val().profiles[uid];
-      dispatch({ type: UPDATE_FAVORITE_DOCTORS, payload: Object.values(doctors) })
-    }, function (error) {
-      console.log("Error: " + error.code);
-    });
+    if (uid === undefined) {
+      dispatch({ type: UPDATE_FAVORITE_DOCTORS, payload: undefined })
+    } else {
+      var database = firebase.database();
+      var ref = firebase.database().ref();
+      ref.on("value", (snapshot) => {
+        if (snapshot.val() !== null) {
+          const doctors = snapshot.val().profiles[uid];
+          dispatch({ type: UPDATE_FAVORITE_DOCTORS, payload: Object.values(doctors) })
+        }
+        else
+          dispatch({ type: UPDATE_FAVORITE_DOCTORS, payload: [] })
+      }, function (error) {
+        console.log("Error: " + error.code);
+      });
+    }
   }
 }

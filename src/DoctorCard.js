@@ -31,17 +31,34 @@ class DoctorCard extends Component {
             ['doctor_' + uid]: uid
       });
   
+      
       var ref = firebase.database().ref();
       ref.on("value", (snapshot) => {
-
-        const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
-        this.props.updateFavorites(Object.values(doctors))
-  
+        if (snapshot.val() !== null) {
+          const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
+          this.props.updateFavorites(Object.values(doctors))
+        }
       }, function (error) {
         console.log("Error: " + error.code);
       });
+
+      
     } else {
-      console.log('delete')
+      var docRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid + '/doctor_' + uid);
+      docRef.remove();
+  
+      var ref = firebase.database().ref();
+      ref.on("value", (snapshot) => {
+        if (snapshot.val() !== null) {
+        const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
+        this.props.updateFavorites(Object.values(doctors))
+        }
+        else
+          this.props.updateFavorites([])
+
+      }, function (error) {
+        console.log("Error: " + error.code);
+      });
     }
   }
 
@@ -57,7 +74,7 @@ class DoctorCard extends Component {
               <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
               <div>Nearest Location:</div>
               <NearestLocation practices={this.props.doctor.practices} />
-              {this.props.signedInUser && <input onChange={() => this.handleHeartClick(this.props.doctor.uid, this.props.favoriteDoctors.find((faveDoc) => faveDoc == this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc == this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
+              {(this.props.signedInUser && this.props.favoriteDoctors) && <input onChange={() => this.handleHeartClick(this.props.doctor.uid, this.props.favoriteDoctors.find((faveDoc) => faveDoc === this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc === this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
             </div>
           </div>
         </div>

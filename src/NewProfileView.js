@@ -14,10 +14,6 @@ class NewProfileView extends Component {
     this.state = {
       email: "",
       password: "",
-      firstName: "",
-      lastName: "",
-      userName: "",
-      cityState: ""
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.submit = this.submit.bind(this)
@@ -61,26 +57,6 @@ class NewProfileView extends Component {
             <div className="small-6 columns md-text-field with-floating-label">
               <input onChange={this.handleInputChange} type="password" name="password" required />
               <label htmlFor="password">Password</label>
-            </div>
-          </div>
-          <div className="row">
-            <div className="small-6 columns md-text-field with-floating-label">
-              <input onChange={this.handleInputChange} type="text" name="firstName" />
-              <label htmlFor="firstName">First Name</label>
-            </div>
-            <div className="small-6 columns md-text-field with-floating-label">
-              <input onChange={this.handleInputChange} type="text" name="lastName" />
-              <label htmlFor="lastName">Last Name</label>
-            </div>
-          </div>
-          <div className="row">
-            <div className="small-6 columns md-text-field with-floating-label">
-              <input onChange={this.handleInputChange} type="text" name="userName" />
-              <label htmlFor="firstName">User Name</label>
-            </div>
-            <div className="small-6 columns md-text-field with-floating-label">
-              <input onChange={this.handleInputChange} type="text" name="cityState" />
-              <label htmlFor="cityState">City, St.</label>
             </div>
           </div>
           <button onClick={this.submit} >Submit</button>

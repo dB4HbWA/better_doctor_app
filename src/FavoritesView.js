@@ -9,7 +9,7 @@ class FavoritesView extends Component {
   render() {
     return (
       <div>
-        <h1 className="pageHeader">Favorites View</h1>
+        <h1 className="pageHeader">Your Favorite Doctors</h1>
         {this.props.docData.length > 0 && (
           <div className="topHeadlinesContainer">
             <div className="card topHeadlinesInnerContainer">

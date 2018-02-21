@@ -10,7 +10,7 @@ export function loadDocData(filter) {
     const location = filter.location.lat + ',' + filter.location.lng
     const miles = filter.miles
 
-    const promise = axios.get('https://api.betterdoctor.com/2016-03-01/doctors?location=' + location + ',' + miles + '&skip=2&limit=50&user_key=1beb2ecd945d9c2a3079c77dc33129ce');
+    const promise = axios.get('https://api.betterdoctor.com/2016-03-01/doctors?location=' + location + ',' + miles + '&sort=distance-asc&skip=0&limit=50&user_key=1beb2ecd945d9c2a3079c77dc33129ce');
 
     promise.then(({ data: docData }) => {
       console.log(docData)

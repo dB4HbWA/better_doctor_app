@@ -1,4 +1,5 @@
 import axios from "axios"
+import * as firebase from 'firebase';
 
 export const LOAD_DOC_DATA = "LOAD_DOC_DATA";
 export const SET_SIGNED_IN_USER = "SET_SIGNED_IN_USER";
@@ -19,6 +20,19 @@ export function loadDocData(filter) {
     promise.catch((data) => {
       console.log(data)
     }
-  )
+    )
+  }
+}
+
+export function loadFavorites(uid) {
+  return (dispatch, getState, api) => {
+    var database = firebase.database();
+    var ref = firebase.database().ref();
+    ref.on("value", (snapshot) => {
+      const doctors = snapshot.val().profiles[uid];
+      dispatch({ type: UPDATE_FAVORITE_DOCTORS, payload: Object.values(doctors) })
+    }, function (error) {
+      console.log("Error: " + error.code);
+    });
   }
 }

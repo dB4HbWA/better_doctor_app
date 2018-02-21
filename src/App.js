@@ -14,7 +14,7 @@ import {
 } from 'react-router-dom'
 import { connect} from 'react-redux';
 import * as firebase from 'firebase';
-import { SET_SIGNED_IN_USER } from './state/actions'
+import { SET_SIGNED_IN_USER, loadFavorites } from './state/actions'
 
 const NavItem = (props) => {
   return (
@@ -120,6 +120,7 @@ class App extends Component {
 
     promise.then((user) => {
       this.props.setSignedInUser(user)
+      this.props.loadUserFavorites(user.uid)
     })
 
     promise.catch((error) => {
@@ -161,7 +162,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSignedInUser: (user) => dispatch({type: SET_SIGNED_IN_USER, payload: user})
+    setSignedInUser: (user) => dispatch({type: SET_SIGNED_IN_USER, payload: user}),
+    loadUserFavorites: (uid) => dispatch(loadFavorites(uid))
   }
 };
 

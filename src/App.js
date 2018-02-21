@@ -82,7 +82,7 @@ const SignInBar = props => {
   return (
     <div className='row'>
       <div className="small-3 large-2 columns">
-      <img src={logo} width={150} height={150} alt='logo' />
+      <img src={logo} width={150} height={123} alt='logo' />
       </div>
       <div className ="small-9 large-10 columns">
     <div style={{ textAlign: 'right', width:'100%' }}>

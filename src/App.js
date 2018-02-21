@@ -80,13 +80,17 @@ const SignInInputWrapped = connect(mapStateToSignInProps)(SignInInput)
 
 const SignInBar = props => {
   return (
-    <div>
+    <div className='row'>
+      <div className="small-3 large-2 columns">
       <img src={logo} width={150} height={150} alt='logo' />
+      </div>
+      <div className ="small-9 large-10 columns">
     <div style={{ textAlign: 'right', width:'100%' }}>
       {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
       <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
       <div style={{ display: 'inline-block' }}>/</div>
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+    </div>
     </div>
     </div>
   )

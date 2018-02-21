@@ -29,14 +29,14 @@ class DoctorCard extends Component {
 
     var profilesRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid);
     profilesRef.update({
-          ['doctor' + uid]: uid
+          ['doctor_' + uid]: uid
     });
 
     var ref = firebase.database().ref();
     ref.on("value", (snapshot) => {
 
       const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
-      this.props.updateFavorites(doctors)
+      this.props.updateFavorites(Object.values(doctors))
 
     }, function (error) {
       console.log("Error: " + error.code);

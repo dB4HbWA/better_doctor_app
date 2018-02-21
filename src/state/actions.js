@@ -29,7 +29,7 @@ export function loadFavorites(uid) {
     if (uid === undefined) {
       dispatch({ type: UPDATE_FAVORITE_DOCTORS, payload: undefined })
     } else {
-      var database = firebase.database();
+      //var database = firebase.database();
       var ref = firebase.database().ref();
       ref.on("value", (snapshot) => {
         if (snapshot.val() !== null && snapshot.val().profiles[uid] != null && snapshot.val().profiles[uid] !== undefined) {

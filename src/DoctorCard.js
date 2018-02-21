@@ -23,12 +23,12 @@ const NearestLocation = ({ practices }) => {
 
 class DoctorCard extends Component {
 
-  handleHeartClick(uid, checked) {
+  handleHeartClick(doctor, checked) {
     if (!checked) {
       var database = firebase.database();
       var profilesRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid);
       profilesRef.update({
-            ['doctor_' + uid]: uid
+            ['doctor_' + doctor.uid]: {uid: doctor.uid, first_name: doctor.profile.first_name, specialties: this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}
       });
   
       
@@ -44,7 +44,7 @@ class DoctorCard extends Component {
 
       
     } else {
-      var docRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid + '/doctor_' + uid);
+      var docRef = firebase.database().ref("profiles/" + this.props.signedInUser.uid + '/doctor_' + doctor.uid);
       docRef.remove();
   
       var ref = firebase.database().ref();
@@ -74,7 +74,7 @@ class DoctorCard extends Component {
               <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
               <div>Nearest Location:</div>
               <NearestLocation practices={this.props.doctor.practices} />
-              {(this.props.signedInUser && this.props.favoriteDoctors) && <input onChange={() => this.handleHeartClick(this.props.doctor.uid, this.props.favoriteDoctors.find((faveDoc) => faveDoc === this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc === this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
+              {(this.props.signedInUser && this.props.favoriteDoctors) && <input onChange={() => this.handleHeartClick(this.props.doctor, this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
             </div>
           </div>
         </div>

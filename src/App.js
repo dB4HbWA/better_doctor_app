@@ -180,7 +180,7 @@ class App extends Component {
             <Route exact path="/newProfile" component={NewProfileView} />
             <Route exact path="/doctor/:uid" render={({ match }) => <DoctorView match={match} />} />
           </Switch>
-          <p>powered by <a href='http://www.betterdoctor.com'>betterdoctor.com</a></p>
+          <p>powered by <a href='http://www.betterdoctor.com'target="_blank">betterdoctor.com</a></p>
         </div>
         
       </Router>

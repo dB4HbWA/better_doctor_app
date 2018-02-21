@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
-import { loadDocData, LOAD_DOC_DATA } from './state/actions';
 import { connect } from 'react-redux';
-import DoctorCard from './DoctorCard';
 import axios from 'axios'
-
-
-const distances = [10, 25, 50, 75, 100]
 
 class DoctorView extends Component {
   constructor(props) {
@@ -21,12 +16,10 @@ class DoctorView extends Component {
     console.log('https://api.betterdoctor.com/2016-03-01/doctors/' + this.props.match.params.uid + '?user_key=1beb2ecd945d9c2a3079c77dc33129ce')
     const promise = axios.get('https://api.betterdoctor.com/2016-03-01/doctors/' + this.props.match.params.uid + '?user_key=1beb2ecd945d9c2a3079c77dc33129ce');
     promise.then(({ data: docData }) => {
-      console.log("componentDidMount")
-      console.log(docData.data)
       this.setState({ doctorDetail: docData.data });
-
     }, () => { })
     promise.catch((data) => {
+      console.log('error')
       console.log(data)
     }
     )
@@ -43,7 +36,7 @@ class DoctorView extends Component {
             <div>
               <div>
                 <div className="small-6 medium-6 large-6 xlarge-6 columns">
-                  <img src={this.state.doctorDetail.profile.image_url} style={{ padding: '30px'}} />
+                  <img src={this.state.doctorDetail.profile.image_url} style={{ padding: '30px'}} alt="" />
                   <h2>Languages Spoken</h2>
                   <p>{this.state.doctorDetail.profile.languages.map((language) => language.name).join(', ')}</p>
                   <h2>Insurance Compatibility</h2>
@@ -58,7 +51,7 @@ class DoctorView extends Component {
                         {practice.phones.map((phone) =>
                           <div>
                             {phone.type === 'landline' &&
-                              <div>{phone.number}</div>
+                              <div key={phone.id} >{phone.number}</div>
                             }
                           </div>
                         )}
@@ -96,11 +89,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadDocData: () => dispatch(loadDocData())
-  }
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     loadDocData: () => dispatch(loadDocData())
+//   }
+// };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(DoctorView)
+export default connect(mapStateToProps)(DoctorView)

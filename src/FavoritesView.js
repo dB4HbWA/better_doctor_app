@@ -25,8 +25,7 @@ class FavoritesView extends Component {
             <div style={{ display: 'inline-block' }}>
               <Link to={'/doctor/' + doctor.uid} >{doctor.first_name + ' ' + doctor.last_name } </Link>
               <div>Specialty: {doctor.specialties}</div>
-         
-              <div>Nearest Location:</div>
+    
            
             </div>
           </div>

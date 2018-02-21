@@ -54,7 +54,7 @@ class SearchView extends Component {
       const google = window.google
       var geocoder = new google.maps.Geocoder();
       geocoder.geocode({ 'address': this.state.locationName }, (results, status) => {
-          if (status === 'OK') {
+          if (status == 'OK') {
             var latitude = results[0].geometry.location.lat();
             var longitude = results[0].geometry.location.lng();
 
@@ -78,8 +78,10 @@ class SearchView extends Component {
   }
 
   render() {
+
     return (
       <div>
+      <div className='card'>
         <h1 className="pageHeader">
           Search
         </h1>
@@ -93,14 +95,17 @@ class SearchView extends Component {
           <span className="select-arrow"></span>
         </div>
         <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined)} onClick={this.handleGoButtonClick}>Go!</button>
+        </div>
+      
         {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">
             {this.props.docData.map((doc) => <DoctorCard key={doc.uid} doctor={doc} />)}
           </div>
         </div>}
       </div>
-    );
-  }
+    );}
+
+  
 }
 
 const mapStateToProps = state => {

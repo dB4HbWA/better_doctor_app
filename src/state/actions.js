@@ -11,6 +11,7 @@ export function loadDocData(filter) {
     let searchString = ""
     let location = ""
     let miles = ""
+    let specialty = ""
 
     if (filter.location) {
       location = filter.location.lat + ',' + filter.location.lng
@@ -24,6 +25,13 @@ export function loadDocData(filter) {
       else
         searchString += 'name=' + filter.doctorName
     }
+
+    // if (filter.specialty) {
+    //   if (searchString !== "")
+    //     searchString += '&specialties=' + filter.specialty
+    //   else
+    //     searchString += 'specialties=' + filter.specialty
+    // }
 
     console.log('https://api.betterdoctor.com/2016-03-01/doctors?' + searchString + '&sort=distance-asc&skip=0&limit=100&user_key=1beb2ecd945d9c2a3079c77dc33129ce')
 

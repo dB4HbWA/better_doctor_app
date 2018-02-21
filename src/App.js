@@ -15,6 +15,7 @@ import {
 import { connect} from 'react-redux';
 import * as firebase from 'firebase';
 import { SET_SIGNED_IN_USER, loadFavorites } from './state/actions'
+import logo from './img/logo.png'
 
 const NavItem = (props) => {
   return (
@@ -33,7 +34,7 @@ class NavBar extends Component {
   render() {
     return (
       <div className="navigationContent">
-        <ul className="tabs tabNames">
+        <ul className="tabs tabNames" style={{marginTop: '15px' }}>
           <NavItem exact={true} to={'/'} navName="Home" />
           {this.props.signedInUser && <NavItem exact={true} to={'/myDoctors'} navName="My Doctors" />}
         </ul>
@@ -79,11 +80,18 @@ const SignInInputWrapped = connect(mapStateToSignInProps)(SignInInput)
 
 const SignInBar = props => {
   return (
+    <div className='row'>
+      <div className="small-3 large-2 columns">
+      <img src={logo} width={150} height={123} alt='logo' />
+      </div>
+      <div className ="small-9 large-10 columns">
     <div style={{ textAlign: 'right', width:'100%' }}>
       {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
       <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
       <div style={{ display: 'inline-block' }}>/</div>
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+    </div>
+    </div>
     </div>
   )
 }

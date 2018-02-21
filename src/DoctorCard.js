@@ -34,7 +34,7 @@ class DoctorCard extends Component {
       
       var ref = firebase.database().ref();
       ref.on("value", (snapshot) => {
-        if (snapshot.val() !== null) {
+        if (snapshot.val() !== null && snapshot.val().profiles[this.props.signedInUser.uid] !== null && snapshot.val().profiles[this.props.signedInUser.uid] !== undefined) {
           const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
           this.props.updateFavorites(Object.values(doctors))
         }
@@ -49,7 +49,7 @@ class DoctorCard extends Component {
   
       var ref = firebase.database().ref();
       ref.on("value", (snapshot) => {
-        if (snapshot.val() !== null) {
+        if (snapshot.val() !== null && snapshot.val().profiles[this.props.signedInUser.uid] !== null && snapshot.val().profiles[this.props.signedInUser.uid] !== undefined) {
         const doctors = snapshot.val().profiles[this.props.signedInUser.uid];
         this.props.updateFavorites(Object.values(doctors))
         }

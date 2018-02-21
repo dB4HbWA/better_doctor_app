@@ -18,6 +18,7 @@ class SearchView extends Component {
       locationFilter: false,
       nameFilter: false,
       specialtyFilter: false,
+      name: "",
       filter: {}
     }
 
@@ -28,11 +29,12 @@ class SearchView extends Component {
     this.handleNameFilterToggle = this.handleNameFilterToggle.bind(this)
     this.handleSpecialtyFilterToggle = this.handleSpecialtyFilterToggle.bind(this)
     this.handleLocationFilterToggle = this.handleLocationFilterToggle.bind(this)
+    this.handleNameChange = this.handleNameChange.bind(this)
   }
 
   handleNameFilterToggle() {
     if (this.state.nameFilter)
-      this.setState({ nameFilter: false })
+      this.setState({ nameFilter: false, name: "" })
     else
       this.setState({ nameFilter: true })
   }
@@ -49,6 +51,10 @@ class SearchView extends Component {
       this.setState({ locationFilter: false, locationName: "", milesAway: 10, currentLocation: undefined, gettingCurrentLocation: undefined })
     else
       this.setState({ locationFilter: true })
+  }
+
+  handleNameChange(event) {
+    this.setState({name: event.target.value})
   }
 
   handleLocationNameChange(event) {
@@ -139,6 +145,11 @@ class SearchView extends Component {
               </select>
               <span className="select-arrow"></span>
             </div>
+          </div>}
+
+          {this.state.nameFilter && 
+          <div>
+            <input onChange={this.handleNameChange} type='text' value={this.state.name} placeholder="First or Last Name. Partial credit counts." />
           </div>}
 
           <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined)} onClick={this.handleGoButtonClick}>Go!</button>

@@ -55,7 +55,7 @@ class DoctorCard extends Component {
               <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
               <div>Nearest Location:</div>
               <NearestLocation practices={this.props.doctor.practices} />
-              <input onChange={() => this.handleHeartClick(this.props.doctor.uid)} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />
+              {this.props.signedInUser && <input onChange={() => this.handleHeartClick(this.props.doctor.uid)} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
             </div>
           </div>
         </div>

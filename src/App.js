@@ -61,7 +61,11 @@ const SignInInput = props => {
     </div>
   )
   else
-    return <div style={{display: 'inline-block', paddingRight: '1%'}}>Signed in as {props.signedInUser.email}</div>
+    return (
+    <div style={{ width: '50%', display: 'inline-block' }}>
+      <div style={{display: 'inline-block', paddingRight: '1%'}}>Signed in as {props.signedInUser.email}</div>
+      <div onClick={props.signOutUser} style={{display: 'inline-block'}} className='inline clickableSignon'>Sign Out</div>
+    </div>)
 }
 
 const mapStateToSignInProps = state => {
@@ -75,9 +79,9 @@ const SignInInputWrapped = connect(mapStateToSignInProps)(SignInInput)
 
 const SignInBar = props => {
   return (
-    <div style={{ textAlign: 'right' }}>
-      {props.enteringSignInInfo && <SignInInputWrapped handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
-      <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{!props.enteringSignInInfo && 'Sign In'}</div>
+    <div style={{ textAlign: 'right', width:'100%' }}>
+      {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
+      <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
       <div style={{ display: 'inline-block' }}>/</div>
       <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
     </div>
@@ -97,6 +101,7 @@ class App extends Component {
     this.updateUserName = this.updateUserName.bind(this)
     this.updatePassword = this.updatePassword.bind(this)
     this.handleSignOnClick = this.handleSignOnClick.bind(this)
+    this.signOutUser = this.signOutUser.bind(this)
   }
 
   handleSignInStatusChange() {
@@ -121,13 +126,31 @@ class App extends Component {
     promise.then((user) => {
       this.props.setSignedInUser(user)
       this.props.loadUserFavorites(user.uid)
+      this.setState({enteringSignInInfo: false, signInUserName: "", signInPassword: ""})
     })
 
     promise.catch((error) => {
       console.log(error)
       // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
+      // ...
+    });
+  }
+
+  signOutUser() {
+    const promise = firebase.auth().signOut()
+
+    promise.then((user) => {
+      this.props.setSignedInUser(undefined)
+      this.props.loadUserFavorites(undefined)
+    })
+
+    promise.catch((error) => {
+      console.log(error)
+      // // Handle Errors here.
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
       // ...
     });
   }
@@ -137,7 +160,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="appHeader">
-            <SignInBar signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo} />
+            <SignInBar signedInUser={this.props.signedInUser} signOutUser={this.signOutUser} signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo} />
             <Route path='/' render={({match}) => <NavBarWrapped match={match}/>} />
           </div>
           <Switch>

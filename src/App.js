@@ -34,7 +34,7 @@ class NavBar extends Component {
   render() {
     return (
       <div className="navigationContent">
-        <ul className="tabs tabNames">
+        <ul className="tabs tabNames" style={{marginTop: '15px' }}>
           <NavItem exact={true} to={'/'} navName="Home" />
           {this.props.signedInUser && <NavItem exact={true} to={'/myDoctors'} navName="My Doctors" />}
         </ul>

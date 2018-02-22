@@ -56,9 +56,9 @@ const SignInInput = props => {
   if (props.signedInUser === undefined)
     return (
       <div style={{display: 'flex'}} >
-        <input style={{marginRight: '2%'}} onChange={props.updateUserName} type='text' value={props.signInUserName} placeholder='Username' />
-        <input style={{marginRight: '2%'}} onChange={props.updatePassword} type='password' value={props.signInPassword} placeholder='Password' />
-        <button style={{marginRight: '2%'}} className='btn-cta tiny' onClick={() => props.handleSignOnClick(props.history)}>Go</button>
+        <input style={{marginRight: '2%', height:'0%'}} onChange={props.updateUserName} type='text' value={props.signInUserName} placeholder='Username' />
+        <input style={{marginRight: '2%', height:'0%'}} onChange={props.updatePassword} type='password' value={props.signInPassword} placeholder='Password' />
+        <button style={{lineHeight:'22%', height:'38%', marginRight: '2%'}} className='btn-cta tiny' onClick={() => props.handleSignOnClick(props.history)}>Go</button>
       </div>
     )
   else

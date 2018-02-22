@@ -69,7 +69,7 @@ class FavoritesView extends Component {
                   <div>Specialty: {doctor.specialties}</div>
                 </div>
              <input onChange={() =>  this.handleHeartClick(doctor, this.props.docData.find((faveDoc) => 
-             faveDoc.uid === doctor.uid))} checked={this.props.docData.find((faveDoc) => faveDoc.uid === doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="remove doc" />} 
+             faveDoc.uid === doctor.uid))} checked={this.props.docData.find((faveDoc) => faveDoc.uid === doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="remove doc" /> 
               </div>
             )}
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
-import { loadDocData } from './state/actions';
+import { loadDocData, CLEAR_DOC_DATA } from './state/actions';
 import { connect } from 'react-redux';
 import DoctorCard from './DoctorCard';
 import axios from "axios"
@@ -63,6 +63,11 @@ class SearchView extends Component {
     this.handleNameChange = this.handleNameChange.bind(this)
     this.handleInsuranceChange = this.handleInsuranceChange.bind(this)
     this.handleSpecialtyChange = this.handleSpecialtyChange.bind(this)
+    this.handleClear = this.handleClear.bind(this)
+  }
+
+  handleClear() {
+    this.props.clearDocData();
   }
 
   handleInsuranceChange(event) {
@@ -178,15 +183,11 @@ class SearchView extends Component {
   }
 
   render() {
-console.log(this.state.gettingCurrentLocation)
-console.log(this.state.locationName.length)
-console.log(this.state.nameFilter)
-console.log(this.state.name)
 
     return (
       <div>
         <div className='card'>
-          <h1 className="pageHeader inline">
+          <h1 style={{display: 'inline-block'}}>
             Search
         </h1>
           <div style={{ paddingLeft: '10%' }} className='inline'>
@@ -205,6 +206,13 @@ console.log(this.state.name)
             <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Insurance</label>
             <input className="inline" type='checkbox' onChange={this.handleInsuranceFilterToggle} checked={this.state.insuranceFilter} />
           </div>
+
+          {(this.state.locationFilter || this.state.nameFilter) && 
+          <button style={{display: 'inline-block', marginLeft: '3%'}} disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
+
+          {this.props.docData.length > 0  && 
+          <button style={{display: 'inline-block', marginLeft: '3%'}} onClick={this.handleClear}>Clear</button>}
+
 
           {this.state.locationFilter && <div>
             {(!this.state.currentLocation && this.state.gettingCurrentLocation !== "retrieving") && <input onChange={this.handleLocationNameChange} type='text' value={this.state.locationName} placeholder="City, State or Zip Code" />}
@@ -243,13 +251,11 @@ console.log(this.state.name)
             </div>
           }
 
-          {(this.state.locationFilter || this.state.nameFilter) && 
-          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
+          
         </div>
-        {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
-          <div className="card topHeadlinesInnerContainer">
+        {this.props.docData.length > 0 && 
+        <div>
             {this.props.docData.map((doc) => <DoctorCard key={doc.uid} doctor={doc} />)}
-          </div>
         </div>}
       </div>
     );
@@ -268,6 +274,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadDocData: (filter) => dispatch(loadDocData(filter)),
+    clearDocData: () => dispatch({type: CLEAR_DOC_DATA})
   }
 };
 

@@ -65,14 +65,12 @@ class DoctorCard extends Component {
 
   render() {
     return (
-      <div className="App">
         <div>
-          <div className="card" style={{ width: '700px', display: 'inline-block', float: 'center' }}>
-            <img src={this.props.doctor.profile.image_url}
-              style={{ float: 'left', display: 'inline-block', height: '135px', width: '100px' }} />
+          <div className="card floating-box">
+            <img src={this.props.doctor.profile.image_url} />
             <div style={{ display: 'inline-block' }}>
               <Link to={'/doctor/' + this.props.doctor.uid} >{this.props.doctor.profile.first_name + ' ' + this.props.doctor.profile.last_name + ' ' + this.props.doctor.profile.title} </Link>
-              <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
+              <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ').length < 40 ? this.props.doctor.specialties.map((specialty) => specialty.name).join(', ') : this.props.doctor.specialties.map((specialty) => specialty.name).join(', ').substring(0,40) + '...'}</div>
               {this.props.doctor.practices !== undefined && this.props.doctor.practices.length > 0 && this.props.doctor.practices[0].distance && <div>
                 <div>Nearest Location:</div>
                 <NearestLocation practices={this.props.doctor.practices} />
@@ -81,7 +79,6 @@ class DoctorCard extends Component {
             </div>
           </div>
         </div>
-      </div>
     );
   }
 }

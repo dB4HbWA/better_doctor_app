@@ -190,28 +190,28 @@ class SearchView extends Component {
           <h1 style={{display: 'inline-block'}}>
             Search
         </h1>
-          <div style={{ paddingLeft: '10%' }} className='inline'>
+          <div style={{ paddingLeft: '5%' }} className='inline'>
             <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Location</label>
-            <input className="inline" type='checkbox' onChange={this.handleLocationFilterToggle} checked={this.state.locationFilter} />
+            <input className="inline" type='checkbox'  style={{verticalAlign: 'top'}} onChange={this.handleLocationFilterToggle} checked={this.state.locationFilter} />
           </div>
-          <div style={{ paddingLeft: '10%' }} className='inline'>
-            <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Specialty</label>
-            <input className="inline" type='checkbox' onChange={this.handleSpecialtyFilterToggle} checked={this.state.specialtyFilter} />
-          </div>
-          <div style={{ paddingLeft: '10%' }} className='inline'>
+          <div style={{ paddingLeft: '5%' }} className='inline'>
             <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Name</label>
-            <input className="inline" type='checkbox' onChange={this.handleNameFilterToggle} checked={this.state.nameFilter} />
+            <input className="inline" type='checkbox' style={{verticalAlign: 'top'}} onChange={this.handleNameFilterToggle} checked={this.state.nameFilter} />
           </div>
-          <div style={{ paddingLeft: '10%' }} className='inline'>
+          <div style={{ paddingLeft: '5%' }} className='inline'>
+            <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Specialty</label>
+            <input className="inline" type='checkbox' style={{verticalAlign: 'top'}} onChange={this.handleSpecialtyFilterToggle} checked={this.state.specialtyFilter} />
+          </div>
+          <div style={{ paddingLeft: '5%' }} className='inline'>
             <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Insurance</label>
-            <input className="inline" type='checkbox' onChange={this.handleInsuranceFilterToggle} checked={this.state.insuranceFilter} />
+            <input className="inline" type='checkbox' style={{verticalAlign: 'top'}} onChange={this.handleInsuranceFilterToggle} checked={this.state.insuranceFilter} />
           </div>
 
           {(this.state.locationFilter || this.state.nameFilter) && 
-          <button className="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%'}} disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
+          <button className="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%', verticalAlign: 'center'}} disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
 
           {this.props.docData.length > 0  && 
-          <button className="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%'}} onClick={this.handleClear}>Clear</button>}
+          <button className="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%', verticalAlign: 'center'}} onClick={this.handleClear}>Clear</button>}
 
 
           {this.state.locationFilter && <div>

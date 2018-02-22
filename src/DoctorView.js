@@ -27,6 +27,7 @@ class DoctorView extends Component {
   }
 
   render() {
+
     return (
       <div >
         <h1 className="pageHeader" >
@@ -45,9 +46,12 @@ class DoctorView extends Component {
                   <h2  style={{ paddingTop: '30px' }}>Find Me</h2>
                   <div style={{ paddingBottom: '5px' }} className="docBio scrollBox">
                     {this.state.doctorDetail.practices.map((practice) =>
-                      <div style={{paddingTop: '5px'}}>
+                      <div key={practice.uid} style={{paddingTop: '5px'}}>
+                        <a href={`http://maps.google.com/?q=${practice.visit_address.street}, ${practice.visit_address.city}, ${practice.visit_address.state}, ${practice.visit_address.zip}`} target="_blank">
                         {practice.visit_address.street + ", "} {practice.visit_address.city + ", "} 
                         {practice.visit_address.state + " "} {practice.visit_address.zip}
+                        </a>
+
                         {practice.phones.map((phone) =>
                           <div key={phone.number}>
                             {phone.type === 'landline' &&

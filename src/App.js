@@ -12,7 +12,7 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as firebase from 'firebase';
 import { SET_SIGNED_IN_USER, loadFavorites } from './state/actions'
 import logo from './img/logo.png'
@@ -34,7 +34,7 @@ class NavBar extends Component {
   render() {
     return (
       <div className="navigationContent">
-        <ul className="tabs tabNames" style={{marginTop: '15px' }}>
+        <ul className="tabs tabNames" style={{ marginTop: '15px' }}>
           <NavItem exact={true} to={'/'} navName="Home" />
           {this.props.signedInUser && <NavItem exact={true} to={'/myDoctors'} navName="My Doctors" />}
         </ul>
@@ -54,19 +54,19 @@ const NavBarWrapped = connect(mapStateToNavProps)(NavBar)
 
 const SignInInput = props => {
   if (props.signedInUser === undefined)
-  return (
-    <div style={{display: 'inline-block', width:'50%'}}>
-      <input onChange={props.updateUserName} style={{display: 'inline-block', width:'40%', marginRight: '2%'}} type='text' value={props.signInUserName} placeholder='Username' />
-      <input onChange={props.updatePassword} style={{display: 'inline-block', width:'40%', marginRight: '2%'}} type='password' value={props.signInPassword} placeholder='Password' />
-      <button onClick={props.handleSignOnClick} style={{display: 'inline-block', marginRight: '2%'}}>Go</button>
-    </div>
-  )
+    return (
+      <div style={{ display: 'inline-block', width: '50%' }}>
+        <input onChange={props.updateUserName} style={{ display: 'inline-block', width: '40%', marginRight: '2%' }} type='text' value={props.signInUserName} placeholder='Username' />
+        <input onChange={props.updatePassword} style={{ display: 'inline-block', width: '40%', marginRight: '2%' }} type='password' value={props.signInPassword} placeholder='Password' />
+        <button onClick={props.handleSignOnClick} style={{ display: 'inline-block', marginRight: '2%' }}>Go</button>
+      </div>
+    )
   else
     return (
-    <div style={{ width: '50%', display: 'inline-block' }}>
-      <div style={{display: 'inline-block', paddingRight: '1%'}}>Signed in as {props.signedInUser.email}</div>
-      <div onClick={props.signOutUser} style={{display: 'inline-block'}} className='inline clickableSignon'>Sign Out</div>
-    </div>)
+      <div style={{ width: '50%', display: 'inline-block' }}>
+        <div style={{ display: 'inline-block', paddingRight: '1%' }}>Signed in as {props.signedInUser.email}</div>
+        <div onClick={props.signOutUser} style={{ display: 'inline-block' }} className='inline clickableSignon'>Sign Out</div>
+      </div>)
 }
 
 const mapStateToSignInProps = state => {
@@ -82,18 +82,17 @@ const SignInBar = props => {
   return (
     <div className='row'>
       <div className="small-3 large-2 columns">
-      <img src={logo} width={150} height={123} alt='logo' />
-      
+        <img src={logo} width={150} height={123} alt='logo' />
       </div>
-      <div className ="small-9 large-10 columns">
-    <div style={{ textAlign: 'right', width:'100%' }}>
-      {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
-      <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
-      <div style={{ display: 'inline-block' }}>/</div>
-      <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
-    </div>
-    </div>
-    
+      <div className="small-9 large-10 columns">
+        <div style={{ textAlign: 'right', width: '100%' }}>
+          {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
+          <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
+          <div style={{ display: 'inline-block' }}>/</div>
+          <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+          <span className='error'>{props.signInError}</span>
+        </div>
+      </div>
     </div>
   )
 }
@@ -105,7 +104,8 @@ class App extends Component {
     this.state = {
       enteringSignInInfo: false,
       signInUserName: "",
-      signInPassword: ""
+      signInPassword: "",
+      signInError: ""
     }
     this.handleSignInStatusChange = this.handleSignInStatusChange.bind(this)
     this.updateUserName = this.updateUserName.bind(this)
@@ -122,11 +122,11 @@ class App extends Component {
   }
 
   updateUserName(event) {
-    this.setState({ signInUserName: event.target.value })
+    this.setState({ signInUserName: event.target.value, signInError: "" })
   }
 
   updatePassword(event) {
-    this.setState({ signInPassword: event.target.value })
+    this.setState({ signInPassword: event.target.value, signInError: "" })
   }
 
   handleSignOnClick() {
@@ -136,14 +136,11 @@ class App extends Component {
     promise.then((user) => {
       this.props.setSignedInUser(user)
       this.props.loadUserFavorites(user.uid)
-      this.setState({enteringSignInInfo: false, signInUserName: "", signInPassword: ""})
+      this.setState({ enteringSignInInfo: false, signInUserName: "", signInPassword: "" })
     })
 
     promise.catch((error) => {
-      console.log(error)
-      // Handle Errors here.
-      // var errorCode = error.code;
-      // var errorMessage = error.message;
+      this.setState({signInError: error.message})
       // ...
     });
   }
@@ -170,8 +167,8 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="appHeader">
-            <SignInBar signedInUser={this.props.signedInUser} signOutUser={this.signOutUser} signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo} />
-            <Route path='/' render={({match}) => <NavBarWrapped match={match}/>} />
+            <SignInBar signInError={this.state.signInError} signedInUser={this.props.signedInUser} signOutUser={this.signOutUser} signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo} />
+            <Route path='/' render={({ match }) => <NavBarWrapped match={match} />} />
           </div>
           <Switch>
             <Route exact path="/" component={SearchView} />
@@ -181,9 +178,9 @@ class App extends Component {
             <Route exact path="/doctor/:uid" render={({ match }) => <DoctorView match={match} />} />
           </Switch>
         </div>
-        
+
       </Router>
-      
+
     );
   }
 }
@@ -197,7 +194,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSignedInUser: (user) => dispatch({type: SET_SIGNED_IN_USER, payload: user}),
+    setSignedInUser: (user) => dispatch({ type: SET_SIGNED_IN_USER, payload: user }),
     loadUserFavorites: (uid) => dispatch(loadFavorites(uid))
   }
 };

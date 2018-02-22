@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
-import { loadDocData, loadAllSpecialties, loadAllInsurancePlans } from './state/actions';
+import { loadDocData } from './state/actions';
 import { connect } from 'react-redux';
 import DoctorCard from './DoctorCard';
 import axios from "axios"
@@ -137,12 +137,12 @@ class SearchView extends Component {
   handleGoButtonClick() {
     let tempFilter = {}
 
+    if (this.state.specialty) {
+      tempFilter.specialty = this.state.specialty
+    }
+
     if (this.state.insurance) {
-      console.log(this.state.insurance)
-      console.log(this.state.allInsurances)
-
-      tempFilter.insurance = this.state.allInsurances.find((providor) => providor.uid === this.state.insurance).plans.map((plan) => plan.uid).join()
-
+      tempFilter.insurance = this.state.allInsurances.find((provider) => provider.uid === this.state.insurance).plans.map((plan) => plan.uid).join()
     }
 
     if (this.state.name !== "") {
@@ -178,6 +178,10 @@ class SearchView extends Component {
   }
 
   render() {
+console.log(this.state.gettingCurrentLocation)
+console.log(this.state.locationName.length)
+console.log(this.state.nameFilter)
+console.log(this.state.name)
 
     return (
       <div>
@@ -239,8 +243,8 @@ class SearchView extends Component {
             </div>
           }
 
-          {(this.state.locationFilter || this.state.nameFilter || this.state.specialtyFilter || this.state.insuranceFilter) && 
-          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) && this.state.name === "" && this.state.specialty === undefined && this.state.insurance === undefined} onClick={this.handleGoButtonClick}>Go!</button>}
+          {(this.state.locationFilter || this.state.nameFilter) && 
+          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
         </div>
         {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">

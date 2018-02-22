@@ -32,7 +32,7 @@ class DoctorView extends Component {
           Doctor Details
         </h1>
         {this.state.doctorDetail !== undefined &&
-          <div className="card" style={{display: 'inline-block', float: 'center', alignContent: 'center' }}>
+          <div className="row card" style={{display: 'inline-block', float: 'center', alignContent: 'center' }}>
             <div>
               <div>
                 <div className="small-6 medium-6 large-6 xlarge-6 columns">
@@ -41,18 +41,16 @@ class DoctorView extends Component {
                   <p>{this.state.doctorDetail.profile.languages.map((language) => language.name).join(', ')}</p>
                   <h2>Insurance Compatibility</h2>
                   <div className="docBio scrollBox">{this.state.doctorDetail.insurances.map((insurance) => insurance.insurance_provider.name).join(', ')}</div>
-                  <h2>Find Me</h2>
+                  <h2  style={{ paddingTop: '30px' }}>Find Me</h2>
                   <div style={{ paddingBottom: '5px' }} className="docBio scrollBox">
                     {this.state.doctorDetail.practices.map((practice) =>
-
-                      <div style={{ paddingBottom: '5px' }}>
+                      <div style={{paddingTop: '5px'}}>
                         {practice.visit_address.street + " "} {practice.visit_address.city + " "} 
                         {practice.visit_address.state + ", "} {practice.visit_address.zip}
                         {practice.phones.map((phone) =>
                           <div key={phone.number}>
                             {phone.type === 'landline' &&
-                              <div>{phone.number}</div>
-                            }
+                              <div>{phone.number}</div>}
                           </div>
                         )}
                       </div>
@@ -65,9 +63,9 @@ class DoctorView extends Component {
                   </h2>
                   <div></div>
                   <h2>Biography</h2>
-                  <p className="docBio scrollBox">
-                    {this.state.doctorDetail.profile.bio}</p>
-                  <h2>Education</h2>
+                  <div className="docBio scrollBox">
+                    {this.state.doctorDetail.profile.bio}</div>
+                  <h2 style={{ paddingTop: '30px' }}>Education</h2>
                   <p className="docBio">{this.state.doctorDetail.educations.map((education) => education.school).join(', ')}ed</p>
                   <h2>Specialties</h2>
                   <div className="docBio"></div>
@@ -88,12 +86,6 @@ const mapStateToProps = state => {
     docData: state.docData
   };
 };
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     loadDocData: () => dispatch(loadDocData())
-//   }
-// };
 
 
 export default connect(mapStateToProps)(DoctorView)

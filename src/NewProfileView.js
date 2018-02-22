@@ -14,26 +14,28 @@ class NewProfileView extends Component {
     this.state = {
       email: "",
       password: "",
+      createdProfile: undefined
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.submit = this.submit.bind(this)
   }
 
   handleInputChange(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   submit(e) {
 
     const promise = firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    promise.then( (success) => {
+    promise.then((success) => {
       console.log(success)
-      this.props.history.push('/')
-      
+      this.setState({createdProfile: true})
+      // setTimeout(this.props.history.push('/'), 5000) 
     })
-    promise.catch(function(error) {
+    promise.catch((error) => {
       console.log(error)
-     });
+      this.setState({createdProfile: false})
+    });
 
     e.preventDefault();
   }
@@ -45,11 +47,13 @@ class NewProfileView extends Component {
     };
     return (
       <form>
+      {(this.state.createdProfile === undefined ||this.state.createdProfile === false ) &&
         <div className='card' style={bkgrStyle}>
           <h1 className="pageHeader">
             Profile
           </h1>
           <div className="row">
+            
             <div className="small-6 columns md-text-field with-floating-label">
               <input onChange={this.handleInputChange} type="text" name="email" required />
               <label htmlFor="email">Email</label>
@@ -60,7 +64,23 @@ class NewProfileView extends Component {
             </div>
           </div>
           <button onClick={this.submit} >Submit</button>
-        </div>
+        </div> }
+
+        {this.state.createdProfile &&
+          <div class="notification-banner standalone success">
+            <span class="icon"></span>
+            <h3>Profile Created</h3>
+            <p>We have successfully created your profile. Please sign in.</p>
+          </div>
+        }
+
+        {this.state.createdProfile === false &&
+          <div class="notification-banner standalone alert">
+            <span class="icon"></span>
+            <h3>Unable to Create Profile</h3>
+            <p>Profile already exists.</p>
+          </div>
+        }
       </form>
     );
   }

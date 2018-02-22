@@ -92,8 +92,8 @@ const SignInBar = props => {
             <div >/</div>
             <Link to={'/newProfile'} >Create Profile</Link>
           </div>}
-          <span className='error'>{props.signInError}</span>
         </div>
+        <span style={{float: 'right'}} className='error'>{props.signInError}</span>
       </div>
     </div>
   )

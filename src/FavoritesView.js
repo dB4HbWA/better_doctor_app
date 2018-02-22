@@ -66,7 +66,7 @@ class FavoritesView extends Component {
                 <img src={doctor.image_url} style={{ padding: '30px' }} alt="" />
                 <div style={{ display: 'inline-block' }}>
                   <Link to={'/doctor/' + doctor.uid} >{doctor.first_name + ' ' + doctor.last_name} </Link>
-                  <div>Specialty: {doctor.specialties}</div>
+                  <div>Specialty: { doctor.specialties.length < 30 ? doctor.specialties : doctor.specialties.substring(0,30) + '...'}</div>
                 </div>
              <input onChange={() =>  this.handleHeartClick(doctor, this.props.docData.find((faveDoc) => 
              faveDoc.uid === doctor.uid))} checked={this.props.docData.find((faveDoc) => faveDoc.uid === doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="remove doc" /> 

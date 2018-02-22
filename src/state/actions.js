@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 export const LOAD_DOC_DATA = "LOAD_DOC_DATA";
 export const SET_SIGNED_IN_USER = "SET_SIGNED_IN_USER";
 export const UPDATE_FAVORITE_DOCTORS = "UPDATE_FAVORITE_DOCTORS"
+export const CLEAR_DOC_DATA = "CLEAR_DOC_DATA"
 
 export function loadDocData(filter) {
   return (dispatch, getState, api) => {

@@ -1,4 +1,4 @@
-import { LOAD_DOC_DATA, SET_SIGNED_IN_USER, UPDATE_FAVORITE_DOCTORS } from './actions';
+import { LOAD_DOC_DATA, SET_SIGNED_IN_USER, UPDATE_FAVORITE_DOCTORS,CLEAR_DOC_DATA } from './actions';
 
 const initialState = {
   docData: [],
@@ -16,6 +16,8 @@ function reducer(state = initialState, action) {
       return { ...state, signedInUser: action.payload}
     case UPDATE_FAVORITE_DOCTORS:
       return { ...state, favoriteDoctors: action.payload}
+    case CLEAR_DOC_DATA:
+      return { ...state, docData: []}
     default:
       return state;
   }

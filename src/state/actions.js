@@ -12,6 +12,7 @@ export function loadDocData(filter) {
     let location = ""
     let miles = ""
     let specialty = ""
+    let insurance = ""
 
     if (filter.location) {
       location = filter.location.lat + ',' + filter.location.lng
@@ -24,6 +25,14 @@ export function loadDocData(filter) {
         searchString += '&name=' + filter.doctorName
       else
         searchString += 'name=' + filter.doctorName
+    }
+
+
+    if (filter.insurance) {
+      if (searchString !== "")
+        searchString += '&insurance_uid=' + filter.insurance
+      else
+        searchString += 'insurance_uid=' + filter.insurance
     }
 
     // if (filter.specialty) {

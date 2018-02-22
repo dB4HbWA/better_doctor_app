@@ -1,13 +1,38 @@
 import React, { Component } from 'react';
 import './ui-toolkit/css/nm-cx/main.css'
 import './App.css';
-import { loadDocData } from './state/actions';
+import { loadDocData, loadAllSpecialties, loadAllInsurancePlans } from './state/actions';
 import { connect } from 'react-redux';
 import DoctorCard from './DoctorCard';
+import axios from "axios"
 
 const distances = [10, 25, 50, 75, 100]
 
 class SearchView extends Component {
+
+  componentDidMount() {
+    const insurancePromise = axios.get('https://api.betterdoctor.com/2016-03-01/insurances?user_key=1beb2ecd945d9c2a3079c77dc33129ce')
+    insurancePromise.then(({ data: insurances }) => {
+
+      this.setState({ allInsurances: insurances.data.sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)} ) })
+    }, () => { })
+    insurancePromise.catch((data) => {
+      console.log(data)
+    }
+    )
+
+    setTimeout(() => {
+      const specialtiesPromise = axios.get('https://api.betterdoctor.com/2016-03-01/specialties?user_key=1beb2ecd945d9c2a3079c77dc33129ce')
+      specialtiesPromise.then(({ data: specialties }) => {
+        this.setState({ allSpecialties: specialties.data.sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)} ) })
+      }, () => { })
+      specialtiesPromise.catch((data) => {
+        console.log(data)
+      }
+      )
+    }, 1000);
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -18,7 +43,12 @@ class SearchView extends Component {
       locationFilter: false,
       nameFilter: false,
       specialtyFilter: false,
+      insuranceFilter: false,
       name: "",
+      insurance: undefined,
+      specialty: undefined,
+      allInsurances: [],
+      allSpecialties: [],
       filter: {}
     }
 
@@ -29,7 +59,25 @@ class SearchView extends Component {
     this.handleNameFilterToggle = this.handleNameFilterToggle.bind(this)
     this.handleSpecialtyFilterToggle = this.handleSpecialtyFilterToggle.bind(this)
     this.handleLocationFilterToggle = this.handleLocationFilterToggle.bind(this)
+    this.handleInsuranceFilterToggle = this.handleInsuranceFilterToggle.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
+    this.handleInsuranceChange = this.handleInsuranceChange.bind(this)
+    this.handleSpecialtyChange = this.handleSpecialtyChange.bind(this)
+  }
+
+  handleInsuranceChange(event) {
+    this.setState({insurance: event.target.value})
+  }
+
+  handleSpecialtyChange(event) {
+    this.setState({specialty: event.target.value})
+  }
+
+  handleInsuranceFilterToggle() {
+    if (this.state.insuranceFilter)
+      this.setState({ insuranceFilter: false, insurance: undefined })
+    else
+      this.setState({ insuranceFilter: true })
   }
 
   handleNameFilterToggle() {
@@ -41,7 +89,7 @@ class SearchView extends Component {
 
   handleSpecialtyFilterToggle() {
     if (this.state.specialtyFilter)
-      this.setState({ specialtyFilter: false })
+      this.setState({ specialtyFilter: false, specialty: undefined })
     else
       this.setState({ specialtyFilter: true })
   }
@@ -89,6 +137,14 @@ class SearchView extends Component {
   handleGoButtonClick() {
     let tempFilter = {}
 
+    if (this.state.insurance) {
+      console.log(this.state.insurance)
+      console.log(this.state.allInsurances)
+
+      tempFilter.insurance = this.state.allInsurances.find((providor) => providor.uid === this.state.insurance).plans.map((plan) => plan.uid).join()
+
+    }
+
     if (this.state.name !== "") {
       tempFilter.doctorName = this.state.name
     }
@@ -115,10 +171,10 @@ class SearchView extends Component {
       this.setState({ filter: tempFilter })
       this.props.loadDocData(tempFilter)
     }
-      else {
-        this.setState({ filter: tempFilter })
-        this.props.loadDocData(tempFilter)
-      }
+    else {
+      this.setState({ filter: tempFilter })
+      this.props.loadDocData(tempFilter)
+    }
   }
 
   render() {
@@ -141,6 +197,10 @@ class SearchView extends Component {
             <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Name</label>
             <input className="inline" type='checkbox' onChange={this.handleNameFilterToggle} checked={this.state.nameFilter} />
           </div>
+          <div style={{ paddingLeft: '10%' }} className='inline'>
+            <label style={{ display: 'inline-block', verticalAlign: 'top' }} >Insurance</label>
+            <input className="inline" type='checkbox' onChange={this.handleInsuranceFilterToggle} checked={this.state.insuranceFilter} />
+          </div>
 
           {this.state.locationFilter && <div>
             {(!this.state.currentLocation && this.state.gettingCurrentLocation !== "retrieving") && <input onChange={this.handleLocationNameChange} type='text' value={this.state.locationName} placeholder="City, State or Zip Code" />}
@@ -159,7 +219,28 @@ class SearchView extends Component {
               <input onChange={this.handleNameChange} type='text' value={this.state.name} placeholder="First or Last Name. Partial credit counts." />
             </div>}
 
-          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) && this.state.name === ""} onClick={this.handleGoButtonClick}>Go!</button>
+          {this.state.insuranceFilter &&
+            <div className="uitk-select md-text-field">
+              <select defaultValue='Select a Provider' onChange={this.handleInsuranceChange} className="os-default">
+              <option disabled value="Select a Provider" >Select a Provider</option>
+                {this.state.allInsurances.map((insurancePlan) => <option key={insurancePlan.uid} value={insurancePlan.uid}>{insurancePlan.name}</option>)}
+              </select>
+              <span className="select-arrow"></span>
+            </div>
+          }
+
+          {this.state.specialtyFilter &&
+            <div className="uitk-select md-text-field">
+              <select defaultValue='Select a Specialty' onChange={this.handleSpecialtyChange} className="os-default">
+              <option disabled value="Select a Specialty" >Select a Specialty</option>
+                {this.state.allSpecialties.map((specialty) => <option key={specialty.uid} value={specialty.uid}>{specialty.name}</option>)}
+              </select>
+              <span className="select-arrow"></span>
+            </div>
+          }
+
+          {(this.state.locationFilter || this.state.nameFilter || this.state.specialtyFilter || this.state.insuranceFilter) && 
+          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) && this.state.name === "" && this.state.specialty === undefined && this.state.insurance === undefined} onClick={this.handleGoButtonClick}>Go!</button>}
         </div>
         {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">

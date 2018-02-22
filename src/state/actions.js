@@ -12,6 +12,7 @@ export function loadDocData(filter) {
     let location = ""
     let miles = ""
     let specialty = ""
+    let insurance = ""
 
     if (filter.location) {
       location = filter.location.lat + ',' + filter.location.lng

@@ -137,6 +137,14 @@ class SearchView extends Component {
   handleGoButtonClick() {
     let tempFilter = {}
 
+    if (this.state.insurance) {
+      console.log(this.state.insurance)
+      console.log(this.state.allInsurances)
+
+      tempFilter.insurance = this.state.allInsurances.find((providor) => providor.uid === this.state.insurance).plans.map((plan) => plan.uid).join()
+
+    }
+
     if (this.state.name !== "") {
       tempFilter.doctorName = this.state.name
     }

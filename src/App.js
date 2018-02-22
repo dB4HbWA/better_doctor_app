@@ -63,8 +63,8 @@ const SignInInput = props => {
     )
   else
     return (
-      <div>
-        <div>Signed in as {props.signedInUser.email}</div>
+      <div style={{display: 'flex'}} >
+        <div style={{paddingRight: '1%'}} >Signed in as {props.signedInUser.email}</div>
         <div onClick={props.signOutUser} className='clickableSignon'>Sign Out</div>
       </div>)
 }

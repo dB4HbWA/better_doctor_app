@@ -208,7 +208,7 @@ class SearchView extends Component {
           </div>
 
           {(this.state.locationFilter || this.state.nameFilter) && 
-          <button button="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%'}} disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
+          <button className="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%'}} disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationFilter && this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) || (this.state.nameFilter && this.state.name === "")} onClick={this.handleGoButtonClick}>Go!</button>}
 
           {this.props.docData.length > 0  && 
           <button className="btn-cta tiny" style={{display: 'inline-block', marginLeft: '3%'}} onClick={this.handleClear}>Clear</button>}

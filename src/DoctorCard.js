@@ -66,7 +66,26 @@ class DoctorCard extends Component {
   render() {
     return (
         <div>
-          <div className="card floating-box">
+        <div class="row card floating-box">
+          <div class="small-5 medium-5 large-4 xlarge-4 columns">
+            <img src={this.props.doctor.profile.image_url} alt="" />
+       
+          </div>
+          <div class="small-6 medium-6 large-6 xlarge6 columns">
+          <Link to={'/doctor/' + this.props.doctor.uid} >{this.props.doctor.profile.first_name + ' ' + this.props.doctor.profile.last_name + ' ' + this.props.doctor.profile.title} </Link>
+            <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
+            {this.props.doctor.practices !== undefined && this.props.doctor.practices.length > 0 && this.props.doctor.practices[0].distance &&
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div>Nearest Location:</div>
+                <NearestLocation practices={this.props.doctor.practices} />
+              </div>}
+          </div>
+          <div class="small-2 medium-2 large-2 xlarge-2 columns">
+            {(this.props.signedInUser && this.props.favoriteDoctors) && <input onChange={() => this.handleHeartClick(this.props.doctor, this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />}
+          </div>
+        </div>
+
+          {/* <div className="card floating-box">
             <img src={this.props.doctor.profile.image_url} />
             <div style={{ display: 'inline-block' }}>
               <Link to={'/doctor/' + this.props.doctor.uid} >{this.props.doctor.profile.first_name + ' ' + this.props.doctor.profile.last_name + ' ' + this.props.doctor.profile.title} </Link>
@@ -77,7 +96,7 @@ class DoctorCard extends Component {
               </div>}
               {(this.props.signedInUser && this.props.favoriteDoctors) && <input onChange={() => this.handleHeartClick(this.props.doctor, this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid))} checked={this.props.favoriteDoctors.find((faveDoc) => faveDoc.uid === this.props.doctor.uid) ? true : false} style={{ float: 'right' }} className="star" type="checkbox" title="savedoc" />} 
             </div>
-          </div>
+          </div> */}
         </div>
     );
   }

@@ -68,7 +68,7 @@ class DoctorView extends Component {
                   <div className="docBio scrollBox">
                     {this.state.doctorDetail.profile.bio}</div>
                   <h2 style={{ paddingTop: '30px' }}>Education</h2>
-                  <p className="docBio">{this.state.doctorDetail.educations.map((education) => education.school).join(', ')}</p>
+                  <p className="docBio">{(this.state.doctorDetail.educations.length >0) ? (this.state.doctorDetail.educations.map((education) => education.school).join(', ')):'Data Not Available'}</p>
                   <h2>Specialties</h2>
                   <div className="docBio"></div>
                   <div className="scrollBox">{this.state.doctorDetail.specialties.map((specialty) => specialty.name).join(', ')} </div>

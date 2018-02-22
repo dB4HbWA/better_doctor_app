@@ -58,7 +58,7 @@ const SignInInput = props => {
       <div style={{ display: 'inline-block', width: '50%' }}>
         <input onChange={props.updateUserName} style={{ display: 'inline-block', width: '40%', marginRight: '2%' }} type='text' value={props.signInUserName} placeholder='Username' />
         <input onChange={props.updatePassword} style={{ display: 'inline-block', width: '40%', marginRight: '2%' }} type='password' value={props.signInPassword} placeholder='Password' />
-        <button onClick={props.handleSignOnClick} style={{ display: 'inline-block', marginRight: '2%' }}>Go</button>
+        <button className='btn-cta tiny' onClick={() => props.handleSignOnClick(props.history)} style={{ display: 'inline-block', marginRight: '2%' }}>Go</button>
       </div>
     )
   else
@@ -86,10 +86,12 @@ const SignInBar = props => {
       </div>
       <div className="small-9 large-10 columns">
         <div style={{ textAlign: 'right', width: '100%' }}>
-          {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
+          {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped history={props.history} signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
           <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
-          <div style={{ display: 'inline-block' }}>/</div>
-          <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+          {!props.signedInUser && <div style={{ display: 'inline-block' }}>
+            <div style={{ display: 'inline-block' }}>/</div>
+            <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+          </div>}
           <span className='error'>{props.signInError}</span>
         </div>
       </div>
@@ -129,7 +131,7 @@ class App extends Component {
     this.setState({ signInPassword: event.target.value, signInError: "" })
   }
 
-  handleSignOnClick() {
+  handleSignOnClick(history) {
 
     const promise = firebase.auth().signInWithEmailAndPassword(this.state.signInUserName, this.state.signInPassword)
 
@@ -137,6 +139,7 @@ class App extends Component {
       this.props.setSignedInUser(user)
       this.props.loadUserFavorites(user.uid)
       this.setState({ enteringSignInInfo: false, signInUserName: "", signInPassword: "" })
+      history.push('/')
     })
 
     promise.catch((error) => {
@@ -167,7 +170,7 @@ class App extends Component {
       <Router>
         <div className="App">
           <div className="appHeader">
-            <SignInBar signInError={this.state.signInError} signedInUser={this.props.signedInUser} signOutUser={this.signOutUser} signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo} />
+            <Route path='/' render={( {history} ) => <SignInBar signInError={this.state.signInError} signedInUser={this.props.signedInUser} signOutUser={this.signOutUser} signInUserName={this.state.signInUserName} signInPassword={this.state.signInPassword} handleSignOnClick={this.handleSignOnClick} updatePassword={this.updatePassword} updateUserName={this.updateUserName} handleSignInStatusChange={this.handleSignInStatusChange} enteringSignInInfo={this.state.enteringSignInInfo}  history={history} />} />
             <Route path='/' render={({ match }) => <NavBarWrapped match={match} />} />
           </div>
           <Switch>

@@ -13,7 +13,7 @@ const NearestLocation = ({ practices }) => {
   if (sortedPractices !== undefined && sortedPractices.length > 0) {
     const closestPractice = sortedPractices[0]
     return (
-      <div>
+      <div style={{paddingLeft: '5%'}}>
         <div>{closestPractice.visit_address.street}</div>
         <div>{closestPractice.visit_address.city}, {closestPractice.visit_address.state} {closestPractice.visit_address.zip}</div>
       </div>
@@ -73,10 +73,10 @@ class DoctorCard extends Component {
           </div>
           <div class="small-6 medium-6 large-6 xlarge6 columns">
           <Link to={'/doctor/' + this.props.doctor.uid} >{this.props.doctor.profile.first_name + ' ' + this.props.doctor.profile.last_name + ' ' + this.props.doctor.profile.title} </Link>
-            <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ')}</div>
+          <div>Specialty: {this.props.doctor.specialties.map((specialty) => specialty.name).join(', ').length < 70 ? this.props.doctor.specialties.map((specialty) => specialty.name).join(', ') : this.props.doctor.specialties.map((specialty) => specialty.name).join(', ').substring(0,70) + '...'}</div>
             {this.props.doctor.practices !== undefined && this.props.doctor.practices.length > 0 && this.props.doctor.practices[0].distance &&
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <div>Nearest Location:</div>
+                <div style={{fontWeight: 'bold'}}>Nearest Location:</div>
                 <NearestLocation practices={this.props.doctor.practices} />
               </div>}
           </div>

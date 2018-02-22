@@ -55,17 +55,17 @@ const NavBarWrapped = connect(mapStateToNavProps)(NavBar)
 const SignInInput = props => {
   if (props.signedInUser === undefined)
     return (
-      <div style={{ display: 'inline-block', width: '50%' }}>
-        <input onChange={props.updateUserName} style={{ display: 'inline-block', width: '40%', marginRight: '2%' }} type='text' value={props.signInUserName} placeholder='Username' />
-        <input onChange={props.updatePassword} style={{ display: 'inline-block', width: '40%', marginRight: '2%' }} type='password' value={props.signInPassword} placeholder='Password' />
-        <button className='btn-cta tiny' onClick={() => props.handleSignOnClick(props.history)} style={{ display: 'inline-block', marginRight: '2%' }}>Go</button>
+      <div style={{display: 'flex'}} >
+        <input style={{marginRight: '2%'}} onChange={props.updateUserName} type='text' value={props.signInUserName} placeholder='Username' />
+        <input style={{marginRight: '2%'}} onChange={props.updatePassword} type='password' value={props.signInPassword} placeholder='Password' />
+        <button style={{marginRight: '2%'}} className='btn-cta tiny' onClick={() => props.handleSignOnClick(props.history)}>Go</button>
       </div>
     )
   else
     return (
-      <div style={{ width: '50%', display: 'inline-block' }}>
-        <div style={{ display: 'inline-block', paddingRight: '1%' }}>Signed in as {props.signedInUser.email}</div>
-        <div onClick={props.signOutUser} style={{ display: 'inline-block' }} className='inline clickableSignon'>Sign Out</div>
+      <div>
+        <div>Signed in as {props.signedInUser.email}</div>
+        <div onClick={props.signOutUser} className='clickableSignon'>Sign Out</div>
       </div>)
 }
 
@@ -85,12 +85,12 @@ const SignInBar = props => {
         <img src={logo} width={150} height={123} alt='logo' />
       </div>
       <div className="small-9 large-10 columns">
-        <div style={{ textAlign: 'right', width: '100%' }}>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
           {(props.enteringSignInInfo || props.signedInUser) && <SignInInputWrapped history={props.history} signOutUser={props.signOutUser} handleSignOnClick={props.handleSignOnClick} updatePassword={props.updatePassword} updateUserName={props.updateUserName} signInUserName={props.signInUserName} signInPassword={props.signInPassword} />}
-          <div onClick={props.handleSignInStatusChange} className={'inline clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
-          {!props.signedInUser && <div style={{ display: 'inline-block' }}>
-            <div style={{ display: 'inline-block' }}>/</div>
-            <Link style={{ display: 'inline-block' }} to={'/newProfile'} >Create Profile</Link>
+          <div onClick={props.handleSignInStatusChange} className={'clickableSignon'}>{(!props.enteringSignInInfo && !props.signedInUser) && 'Sign In'}</div>
+          {!props.signedInUser && <div style={{display: 'flex'}}>
+            <div >/</div>
+            <Link to={'/newProfile'} >Create Profile</Link>
           </div>}
           <span className='error'>{props.signInError}</span>
         </div>

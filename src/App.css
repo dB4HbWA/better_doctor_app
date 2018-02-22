@@ -45,7 +45,7 @@
 .inline {
   display: inline-block
 }
-.inline:hover {
+.clickableSignon:hover {
   text-decoration: underline;
   cursor: pointer;
 }

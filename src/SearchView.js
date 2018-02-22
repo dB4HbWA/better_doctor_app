@@ -231,7 +231,8 @@ class SearchView extends Component {
             </div>
           }
 
-          {(this.state.locationFilter || this.state.nameFilter || this.state.specialtyFilter || this.state.insuranceFilter) && <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) && this.state.name === ""} onClick={this.handleGoButtonClick}>Go!</button>}
+          {(this.state.locationFilter || this.state.nameFilter || this.state.specialtyFilter || this.state.insuranceFilter) && 
+          <button disabled={this.state.gettingCurrentLocation === 'retrieving' || (this.state.locationName.length === 0 && this.state.gettingCurrentLocation === undefined) && this.state.name === "" && this.state.specialty === undefined && this.state.insurance === undefined} onClick={this.handleGoButtonClick}>Go!</button>}
         </div>
         {this.props.docData.length > 0 && <div className="topHeadlinesContainer">
           <div className="card topHeadlinesInnerContainer">

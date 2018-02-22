@@ -16,6 +16,7 @@ class DoctorView extends Component {
     console.log('https://api.betterdoctor.com/2016-03-01/doctors/' + this.props.match.params.uid + '?user_key=1beb2ecd945d9c2a3079c77dc33129ce')
     const promise = axios.get('https://api.betterdoctor.com/2016-03-01/doctors/' + this.props.match.params.uid + '?user_key=1beb2ecd945d9c2a3079c77dc33129ce');
     promise.then(({ data: docData }) => {
+      console.log(docData)
       this.setState({ doctorDetail: docData.data });
     }, () => { })
     promise.catch((data) => {
@@ -29,7 +30,7 @@ class DoctorView extends Component {
     return (
       <div >
         <h1 className="pageHeader" >
-          Doctor Details
+          Meet the Doctor
         </h1>
         {this.state.doctorDetail !== undefined &&
           <div className="row card" style={{display: 'inline-block', float: 'center', alignContent: 'center' }}>
@@ -50,7 +51,8 @@ class DoctorView extends Component {
                         {practice.phones.map((phone) =>
                           <div key={phone.number}>
                             {phone.type === 'landline' &&
-                              <div>{phone.number}</div>}
+                              <div>({phone.number.substring (0, 3)}) {phone.number.substring (3, 6)}-{phone.number.substring (6, 10)}
+                                </div>}
                           </div>
                         )}
                       </div>
@@ -66,7 +68,7 @@ class DoctorView extends Component {
                   <div className="docBio scrollBox">
                     {this.state.doctorDetail.profile.bio}</div>
                   <h2 style={{ paddingTop: '30px' }}>Education</h2>
-                  <p className="docBio">{this.state.doctorDetail.educations.map((education) => education.school).join(', ')}ed</p>
+                  <p className="docBio">{this.state.doctorDetail.educations.map((education) => education.school).join(', ')}</p>
                   <h2>Specialties</h2>
                   <div className="docBio"></div>
                   <div className="scrollBox">{this.state.doctorDetail.specialties.map((specialty) => specialty.name).join(', ')} </div>

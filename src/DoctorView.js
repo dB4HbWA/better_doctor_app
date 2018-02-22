@@ -42,7 +42,7 @@ class DoctorView extends Component {
                   <h2>Languages Spoken</h2>
                   <p>{this.state.doctorDetail.profile.languages.map((language) => language.name).join(', ')}</p>
                   <h2>Insurance Compatibility</h2>
-                  <div className="docBio scrollBox">{this.state.doctorDetail.insurances.map((insurance) => insurance.insurance_provider.name).join(', ')}</div>
+                  <div className="docBio scrollBox">{this.state.doctorDetail.insurances.map((insurance) => insurance.insurance_plan.name).join(', ')}</div>
                   <h2  style={{ paddingTop: '30px' }}>Find Me</h2>
                   <div style={{ paddingBottom: '5px' }} className="docBio scrollBox">
                     {this.state.doctorDetail.practices.map((practice) =>

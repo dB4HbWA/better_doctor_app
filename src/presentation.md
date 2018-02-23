@@ -22,10 +22,10 @@
 
 ### Create A Profile - Bruce and Vince
  - Create one already in use (bfox@gmail.com)
- - Create a new one bruce@aol.com
+ - Create a new one joe@aol.com
  - Navigate back to search screen
  - search for doctors near chicago
- - Sign in with new account bruce@aol.com
+ - Sign in with new account joe@aol.com
     - make note of checkboxes now appear and my doctors menu option appears
  - Pick a few faces
  - navigate to the favorites

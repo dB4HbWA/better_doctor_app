@@ -7,14 +7,14 @@
 
 ### Search - Sam
  - Location (current), nearest shows in results
- - Location by Name (explain ANYTHING in the box)
- - Doctor Name (first or last)
- - Specialty with either location or name
- - Insurance with either location or name
+ - Location by Name (53132, Miller Park)
+ - Specialty: Cardiovas disease
+ - Insurance: United Healtcare
+ - Clear and search Dana Wood
 
 ### Talk about Results - Sam
  - Notice how location doesn't show up unless you search by location on doctor card
- - Search for Dana Wood and click into her name
+ - Click Dana
 
 ### Doctor Page - Joe
  - Details of doctor are displayed. Explain how this is all from our API

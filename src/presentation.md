@@ -7,7 +7,7 @@
 
 ### Search - Sam
  - Location (current), nearest shows in results
- - Location by Name (53132, Miller Park)
+ - Location by Name (53132)
  - Specialty: Cardiovas disease
  - Insurance: United Healtcare
  - Clear and search Dana Wood

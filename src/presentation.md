@@ -2,6 +2,7 @@
 
 ### Intros/Names
 - Idea/Why?!?!?!?
+- Not a must, but maybe good to say your dept and how long you've been with nm.
 - We can wing this
 
 ### Search - Sam
